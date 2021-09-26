@@ -2,7 +2,7 @@ import { GithubOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-layout';
 
 export default () => {
-  const defaultMessage =  '大软实验第四小组';
+  const defaultMessage = '大软实验第四小组';
 
   const currentDate = new Date().toLocaleDateString();
 

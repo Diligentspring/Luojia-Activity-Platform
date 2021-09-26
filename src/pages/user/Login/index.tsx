@@ -1,18 +1,10 @@
-import {
-  AlipayCircleOutlined,
-  LockOutlined,
-  MobileOutlined,
-  TaobaoCircleOutlined,
-  UserOutlined,
-  WeiboCircleOutlined,
-} from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, Space, message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import ProForm, { ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import {  Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
+import { Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 
 import styles from './index.less';
 
@@ -35,7 +27,6 @@ const Login: React.FC = () => {
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
 
-
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
@@ -52,7 +43,7 @@ const Login: React.FC = () => {
       // 登录
       const msg = await login({ ...values, type });
       if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = '登录成功！'
+        const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
@@ -65,7 +56,7 @@ const Login: React.FC = () => {
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！'
+      const defaultLoginFailureMessage = '登录失败，请重试！';
 
       message.error(defaultLoginFailureMessage);
     }
@@ -86,9 +77,7 @@ const Login: React.FC = () => {
               <span className={styles.title}>活动管理平台</span>
             </Link>
           </div>
-          <div className={styles.desc}>
-            {'Manage Your Activities' }
-          </div>
+          <div className={styles.desc}>{'Manage Your Activities'}</div>
         </div>
 
         <div className={styles.main}>
@@ -98,8 +87,7 @@ const Login: React.FC = () => {
             }}
             submitter={{
               searchConfig: {
-                submitText:  '登录'
-          
+                submitText: '登录',
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
@@ -115,11 +103,7 @@ const Login: React.FC = () => {
             }}
           >
             <Tabs activeKey={type} onChange={setType}>
-              <Tabs.TabPane
-                key="account"
-                tab={ '账户密码登录'
-                }
-              />
+              <Tabs.TabPane key="account" tab={'账户密码登录'} />
               {/* <Tabs.TabPane
                 key="mobile"
                 tab={'手机号登录'
@@ -128,10 +112,7 @@ const Login: React.FC = () => {
             </Tabs>
 
             {status === 'error' && loginType === 'account' && (
-              <LoginMessage
-                content={'账户或密码错误(admin/ant.design)'
-                }
-              />
+              <LoginMessage content={'账户或密码错误(admin/ant.design)'} />
             )}
             {type === 'account' && (
               <>
@@ -141,8 +122,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={'用户名: admin or user'
-                  }
+                  placeholder={'用户名: admin or user'}
                   rules={[
                     {
                       required: true,
@@ -161,8 +141,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={'密码: ant.design'
-                  }
+                  placeholder={'密码: ant.design'}
                   rules={[
                     {
                       required: true,
@@ -210,7 +189,7 @@ const Login: React.FC = () => {
                     },
                   ]}
                 /> */}
-                {/* <ProFormCaptcha
+            {/* <ProFormCaptcha
                   fieldProps={{
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
