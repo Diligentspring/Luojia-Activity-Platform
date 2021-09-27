@@ -15,4 +15,12 @@ public class UserImpl implements Userservice {
     public int createuser(User user){
         return Usermapper.createuser(user);
     }
+    @Override
+    public User getUserInfoByAccount(String username){
+        return Usermapper.getUserInfoByAccount(username);
+    }
+    @Override
+    public User getUserInfoByid(int userid){
+        return Usermapper.getUserInfoByid(userid);
+    }
 }

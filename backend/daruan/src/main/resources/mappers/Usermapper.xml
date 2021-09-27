@@ -12,11 +12,22 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, username, `password`, authority, sex, `unit`, age, phone
+        `id`, username, `password`, authority, sex, age, phone, major
     </sql>
     <insert id="createuser" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.User" useGeneratedKeys="true">
-        insert into user(username,`password`,authority)
-        values(#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{authority,jdbcType=VARCHAR})
+        insert into user(username,`password`)
+        values(#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
     </insert>
-
+    <select id="getUserInfoByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where username=#{username,jdbcType=VARCHAR}
+    </select>
+    <select id="getUserInfoByid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id=#{id,jdbcType=INTEGER}
+    </select>
 </mapper>
