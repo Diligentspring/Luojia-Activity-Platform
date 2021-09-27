@@ -8,7 +8,8 @@ public class User {
     private String sex;
     private String phone;
     private String major;
-    private int age;
+    private String birth_date;
+    private String email;
 
     public int getId() {
         return id;
@@ -66,11 +67,19 @@ public class User {
         this.major = major;
     }
 
-    public int getAge() {
-        return age;
+    public String getBirth_date() {
+        return birth_date;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setBirth_date(String birth_date) {
+        this.birth_date = birth_date;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
