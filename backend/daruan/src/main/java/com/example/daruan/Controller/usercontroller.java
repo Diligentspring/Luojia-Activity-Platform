@@ -39,7 +39,7 @@ public class usercontroller {
     /**
      * 执行登录
      */
-    @PostMapping("/login")
+    @GetMapping("/login")
     public JSONObject doLogin(String username, String password, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         // 最终返回的对象
         JSONObject res = new JSONObject();
@@ -76,7 +76,7 @@ public class usercontroller {
         return res;
     }
 
-    @RequestMapping(value = "logout")
+    @GetMapping("/logout")
     public String logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
         // 删除session里面的用户信息
         session.removeAttribute("user_session");
