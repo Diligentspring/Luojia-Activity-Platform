@@ -32,6 +32,7 @@ public class usercontroller {
         else {
             int status = service.createuser(user);
             result.put("code:", status);
+            result.put("msg","注册成功！");
         }
         return result;
     }
