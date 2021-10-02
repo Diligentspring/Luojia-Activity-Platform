@@ -13,22 +13,45 @@
         <result column="hate" jdbcType="INTEGER" property="hate"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="time_start" jdbcType="TIMESTAMP" property="time_start"/>
-        <result column="time_duration" jdbcType="TIMESTAMP" property="time_duration"/>
+        <result column="time_end" jdbcType="TIMESTAMP" property="time_end"/>
+        <result column="start" jdbcType="TIMESTAMP" property="start"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_duration
+        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start
     </sql>
     <select id="getallactivity" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from activity
     </select>
-    <select id="filteractivity" resultMap="BaseResultMap">
+    <select id="notstart" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from activity
         where
-        time_start <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP} and
-        time <![CDATA[<=]]>#{endtime,jdbcType=TIMESTAMP}
+        start <![CDATA[>]]>#{nowtime,jdbcType=TIMESTAMP}
+    </select>
+    <select id="register" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+        where
+        start <![CDATA[<=]]>#{nowtime,jdbcType=TIMESTAMP} and
+        deadline <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP}
+    </select>
+    <select id="inprogress" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+        where
+        time_start <![CDATA[<=]]>#{nowtime,jdbcType=TIMESTAMP} and
+        time_end <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP}
+    </select>
+    <select id="complete" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+        where
+        time_end <![CDATA[<]]>#{nowtime,jdbcType=TIMESTAMP}
     </select>
 </mapper>

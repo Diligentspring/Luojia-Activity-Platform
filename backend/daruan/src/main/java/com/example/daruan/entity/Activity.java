@@ -5,14 +5,15 @@ public class Activity {
     String title;
     String site;
     Integer number_people;
-    String deadline;
+    String deadline; //结束报名时间
     String introduction;
     Integer organizer;
     Integer like;
     Integer hate;
     String type;
-    String time_start;
-    String time_duration;
+    String time_start; //活动开始时间
+    String time_end;  //活动结束时间
+    String start; //开始报名时间
 
     public Integer getId() {
         return id;
@@ -102,11 +103,19 @@ public class Activity {
         this.time_start = time_start;
     }
 
-    public String getTime_duration() {
-        return time_duration;
+    public String getTime_end() {
+        return time_end;
     }
 
-    public void setTime_duration(String time_duration) {
-        this.time_duration = time_duration;
+    public void setTime_end(String time_end) {
+        this.time_end = time_end;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
     }
 }

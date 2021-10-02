@@ -16,4 +16,20 @@ public class ActivityImpl implements Activityservice {
     public List<Activity> getallactivity(){
         return activitymapper.getallactivity();
     }
+    @Override
+    public List<Activity> notstart(String nowtime){
+        return activitymapper.notstart(nowtime);
+    };
+    @Override
+    public List<Activity> register(String nowtime){
+        return activitymapper.register(nowtime);
+    };
+    @Override
+    public List<Activity> inprogress(String nowtime){
+        return activitymapper.inprogress(nowtime);
+    };
+    @Override
+    public List<Activity> complete(String nowtime){
+        return activitymapper.complete(nowtime);
+    };
 }
