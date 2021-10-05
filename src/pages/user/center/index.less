@@ -1,0 +1,39 @@
+.content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 10vh 0;
+  background-image: url('../../../../public/background.jpg');
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .avatar {
+    position: relative;
+    top: -50px;
+    width: 160px;
+    height: 160px;
+  }
+  .briefInfoDiv {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    .userName {
+      font-weight: bold;
+      font-size: x-large;
+      line-height: 30px;
+    }
+    .otherInfo {
+    }
+  }
+  .editButton {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+}

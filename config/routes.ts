@@ -1,7 +1,6 @@
 ﻿export default [
   {
     path: '/user',
-    layout: false,
     routes: [
       {
         path: '/user',
@@ -9,6 +8,11 @@
           {
             path: '/user/login',
             component: './user/Login',
+            layout: false,
+          },
+          {
+            path: '/user/center',
+            component: './user/center',
           },
         ],
       },
