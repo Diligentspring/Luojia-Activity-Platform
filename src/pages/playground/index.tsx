@@ -4,129 +4,7 @@ import { Button, Card, Tabs, Tag, Typography } from 'antd';
 import React, { useState } from 'react';
 
 import styles from './index.less';
-
-enum StatusType {
-  NOT_START = 1,
-  APPLYING = 2,
-  RUNNING = 3,
-  FINISHED = 4,
-}
-interface ActivityProps {
-  id: number;
-  title?: string; // 活动标题
-  desc?: string; // 活动描述
-  organizer?: string; // 组织者
-  creatTime?: string; // 创建时间
-  duration?: string; // 持续时间
-  location?: string; // 活动地点
-  status?: StatusType; // 活动状态
-  participantsNeeded?: number; // 招募人数
-  participantsAlready?: number; // 已有人数
-  cutOffTime?: number; // 截止时间
-  likes?: number; // 点赞数
-  dislikes?: number; // 点踩数
-}
-
-const { Title } = Typography;
-
-const Status = (props: any) => {
-  const { value } = props;
-  switch (value) {
-    case StatusType.NOT_START:
-      return (
-        <Tag color="default" style={{ marginRight: 0 }}>
-          尚未开始
-        </Tag>
-      );
-    case StatusType.APPLYING:
-      return (
-        <Tag color="warning" style={{ marginRight: 0 }}>
-          火热报名中
-        </Tag>
-      );
-    case StatusType.RUNNING:
-      return (
-        <Tag color="processing" style={{ marginRight: 0 }}>
-          正在进行中
-        </Tag>
-      );
-    case StatusType.FINISHED:
-      return (
-        <Tag color="magenta" style={{ marginRight: 0 }}>
-          已结束
-        </Tag>
-      );
-    default:
-      return (
-        <Tag color="default" style={{ marginRight: 0 }}>
-          其他
-        </Tag>
-      );
-  }
-};
-
-const Activity = (props: ActivityProps) => {
-  const {
-    id,
-    title,
-    desc,
-    organizer,
-    creatTime,
-    duration,
-    location,
-    status,
-    participantsNeeded,
-    participantsAlready,
-    cutOffTime,
-    likes,
-    dislikes,
-  } = props;
-
-  return (
-    <div className={styles.activity_main}>
-      <Card style={{ width: '70%' }}>
-        <div className={styles.activity_content}>
-          <div className={styles.activity_left_div}>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginBottom: 10,
-              }}
-            >
-              <Title level={2} style={{ marginBottom: 0 }}>
-                {title}
-              </Title>
-              <div style={{ marginLeft: 10 }}>
-                <Status value={status} />
-              </div>
-            </div>
-
-            <div style={{ color: 'gray' }}>{desc}</div>
-          </div>
-          <div className={styles.activity_right_div}>
-            <div>{organizer}</div>
-            <div>{creatTime}</div>
-            <div className={styles.activity_like_div}>
-              <div>
-                <LikeOutlined />
-                {likes}
-              </div>
-              <div style={{ marginLeft: 2 }}>
-                <DislikeOutlined />
-                {dislikes}
-              </div>
-            </div>
-            <div>
-              <Button>我要参加</Button>
-            </div>
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
-};
+import Activity, { ActivityProps } from '@/components/Activity';
 
 const Playground = () => {
   const initialDataSource = [
@@ -251,35 +129,35 @@ const Playground = () => {
           <Button type="primary">快速创建</Button>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-          <div style={{ marginLeft: '15%' }}>
-            <Tabs
-              defaultActiveKey={activeKey}
-              onChange={(key) => {
-                setActiveKey(key);
-                if (key === '0') setDataSource(initialDataSource);
-                else
-                  setDataSource(
-                    initialDataSource.filter((item: ActivityProps, id: number) => {
-                      if (item.status?.toString() === key) {
-                        return true;
-                      } else {
-                        return false;
-                      }
-                    }),
-                  );
-              }}
-            >
-              <Tabs.TabPane tab="全部" key="0"></Tabs.TabPane>
-              <Tabs.TabPane tab="尚未开始" key="1"></Tabs.TabPane>
-              <Tabs.TabPane tab="火热报名中" key="2"></Tabs.TabPane>
-              <Tabs.TabPane tab="正在进行中" key="3"></Tabs.TabPane>
-              <Tabs.TabPane tab="已结束" key="4"></Tabs.TabPane>
-            </Tabs>
-          </div>
+          <Tabs
+            defaultActiveKey={activeKey}
+            onChange={(key) => {
+              setActiveKey(key);
+              if (key === '0') setDataSource(initialDataSource);
+              else
+                setDataSource(
+                  initialDataSource.filter((item: ActivityProps, id: number) => {
+                    if (item.status?.toString() === key) {
+                      return true;
+                    } else {
+                      return false;
+                    }
+                  }),
+                );
+            }}
+          >
+            <Tabs.TabPane tab="全部" key="0"></Tabs.TabPane>
+            <Tabs.TabPane tab="尚未开始" key="1"></Tabs.TabPane>
+            <Tabs.TabPane tab="火热报名中" key="2"></Tabs.TabPane>
+            <Tabs.TabPane tab="正在进行中" key="3"></Tabs.TabPane>
+            <Tabs.TabPane tab="已结束" key="4"></Tabs.TabPane>
+          </Tabs>
         </div>
-        {dataSource.map((item: ActivityProps, id: number) => {
-          return <Activity key={id} {...item}></Activity>;
-        })}
+        <div className={styles.activities_list}>
+          {dataSource.map((item: ActivityProps, id: number) => {
+            return <Activity key={id} {...item}></Activity>;
+          })}
+        </div>
       </div>
     </PageContainer>
   );
