@@ -1,5 +1,5 @@
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
-import { PageContainer } from '@ant-design/pro-layout';
+import PageContainer from '../../components/PageContainer';
 import { Button, Card, Tabs, Tag, Typography } from 'antd';
 import React, { useState } from 'react';
 
@@ -83,10 +83,10 @@ const Activity = (props: ActivityProps) => {
   } = props;
 
   return (
-    <div className={styles.main}>
+    <div className={styles.activity_main}>
       <Card style={{ width: '70%' }}>
-        <div className={styles.content}>
-          <div className={styles.left_div}>
+        <div className={styles.activity_content}>
+          <div className={styles.activity_left_div}>
             <div
               style={{
                 display: 'flex',
@@ -105,10 +105,10 @@ const Activity = (props: ActivityProps) => {
 
             <div style={{ color: 'gray' }}>{desc}</div>
           </div>
-          <div className={styles.right_div}>
+          <div className={styles.activity_right_div}>
             <div>{organizer}</div>
             <div>{creatTime}</div>
-            <div className={styles.like_div}>
+            <div className={styles.activity_like_div}>
               <div>
                 <LikeOutlined />
                 {likes}
@@ -127,6 +127,7 @@ const Activity = (props: ActivityProps) => {
     </div>
   );
 };
+
 const Playground = () => {
   const initialDataSource = [
     {
@@ -245,47 +246,41 @@ const Playground = () => {
   const [activeKey, setActiveKey] = useState('0');
   return (
     <PageContainer>
-      <div
-        style={{
-          width: '85%',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          marginBottom: 20,
-        }}
-      >
-        <Button type="primary">快速创建</Button>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-        <div style={{ marginLeft: '15%' }}>
-          <Tabs
-            defaultActiveKey={activeKey}
-            onChange={(key) => {
-              setActiveKey(key);
-              if (key === '0') setDataSource(initialDataSource);
-              else
-                setDataSource(
-                  initialDataSource.filter((item: ActivityProps, id: number) => {
-                    if (item.status?.toString() === key) {
-                      return true;
-                    } else {
-                      return false;
-                    }
-                  }),
-                );
-            }}
-          >
-            <Tabs.TabPane tab="全部" key="0"></Tabs.TabPane>
-            <Tabs.TabPane tab="尚未开始" key="1"></Tabs.TabPane>
-            <Tabs.TabPane tab="火热报名中" key="2"></Tabs.TabPane>
-            <Tabs.TabPane tab="正在进行中" key="3"></Tabs.TabPane>
-            <Tabs.TabPane tab="已结束" key="4"></Tabs.TabPane>
-          </Tabs>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <Button type="primary">快速创建</Button>
         </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          <div style={{ marginLeft: '15%' }}>
+            <Tabs
+              defaultActiveKey={activeKey}
+              onChange={(key) => {
+                setActiveKey(key);
+                if (key === '0') setDataSource(initialDataSource);
+                else
+                  setDataSource(
+                    initialDataSource.filter((item: ActivityProps, id: number) => {
+                      if (item.status?.toString() === key) {
+                        return true;
+                      } else {
+                        return false;
+                      }
+                    }),
+                  );
+              }}
+            >
+              <Tabs.TabPane tab="全部" key="0"></Tabs.TabPane>
+              <Tabs.TabPane tab="尚未开始" key="1"></Tabs.TabPane>
+              <Tabs.TabPane tab="火热报名中" key="2"></Tabs.TabPane>
+              <Tabs.TabPane tab="正在进行中" key="3"></Tabs.TabPane>
+              <Tabs.TabPane tab="已结束" key="4"></Tabs.TabPane>
+            </Tabs>
+          </div>
+        </div>
+        {dataSource.map((item: ActivityProps, id: number) => {
+          return <Activity key={id} {...item}></Activity>;
+        })}
       </div>
-
-      {dataSource.map((item: ActivityProps, id: number) => {
-        return <Activity key={id} {...item}></Activity>;
-      })}
     </PageContainer>
   );
 };

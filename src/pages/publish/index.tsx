@@ -1,11 +1,11 @@
-import { PageContainer } from '@ant-design/pro-layout';
+import PageContainer from '../../components/PageContainer';
 import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row } from 'antd';
 import React from 'react';
 
 const Publish = () => {
   return (
     <PageContainer>
-      <Card style={{ padding: 20 }}>
+      <Card style={{ padding: 20, width: '80%' }}>
         <Form>
           <Form.Item name="title" label="活动名称">
             <Input></Input>
