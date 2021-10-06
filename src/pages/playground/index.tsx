@@ -7,7 +7,7 @@ import styles from './index.less';
 import Activity, { ActivityProps } from '@/components/Activity';
 
 const Playground = () => {
-  const initialDataSource = [
+  const initialDataSource: ActivityProps[] = [
     {
       id: 1,
       title: '活动1',
@@ -17,6 +17,7 @@ const Playground = () => {
       likes: 100,
       dislikes: 0,
       status: 4,
+      participated: false,
     },
     {
       id: 2,
@@ -27,6 +28,7 @@ const Playground = () => {
       likes: 200,
       dislikes: 0,
       status: 1,
+      participated: true,
     },
     {
       id: 3,
@@ -37,6 +39,7 @@ const Playground = () => {
       likes: 300,
       dislikes: 0,
       status: 3,
+      participated: true,
     },
     {
       id: 4,
@@ -47,6 +50,7 @@ const Playground = () => {
       likes: 400,
       dislikes: 0,
       status: 2,
+      participated: false,
     },
     {
       id: 5,
@@ -57,6 +61,7 @@ const Playground = () => {
       likes: 500,
       dislikes: 0,
       status: 1,
+      participated: false,
     },
     {
       id: 6,
@@ -67,6 +72,7 @@ const Playground = () => {
       likes: 600,
       dislikes: 0,
       status: 3,
+      participated: false,
     },
     {
       id: 7,
@@ -77,6 +83,7 @@ const Playground = () => {
       likes: 700,
       dislikes: 0,
       status: 4,
+      participated: false,
     },
     {
       id: 8,
@@ -87,6 +94,7 @@ const Playground = () => {
       likes: 800,
       dislikes: 0,
       status: 3,
+      participated: false,
     },
     {
       id: 9,
@@ -97,6 +105,7 @@ const Playground = () => {
       likes: 900,
       dislikes: 0,
       status: 2,
+      participated: true,
     },
     {
       id: 10,
@@ -107,6 +116,7 @@ const Playground = () => {
       likes: 1000,
       dislikes: 0,
       status: 1,
+      participated: true,
     },
     {
       id: 11,
@@ -117,6 +127,7 @@ const Playground = () => {
       likes: 1100,
       dislikes: 0,
       status: 4,
+      participated: true,
     },
   ];
   const [dataSource, setDataSource] = useState<ActivityProps[]>(initialDataSource);

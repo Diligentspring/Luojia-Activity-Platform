@@ -22,6 +22,7 @@ export interface ActivityProps {
   cutOffTime?: number; // 截止时间
   likes?: number; // 点赞数
   dislikes?: number; // 点踩数
+  participated?: boolean; // 是否已参加
 }
 
 const Activity = (props: ActivityProps) => {
@@ -39,6 +40,7 @@ const Activity = (props: ActivityProps) => {
     cutOffTime,
     likes,
     dislikes,
+    participated,
   } = props;
 
   return (
@@ -77,9 +79,7 @@ const Activity = (props: ActivityProps) => {
                 {dislikes}
               </div>
             </div>
-            <div>
-              <Button>我要参加</Button>
-            </div>
+            <div>{!participated ? <Button>我要参加</Button> : <Button>取消报名</Button>}</div>
           </div>
         </div>
       </Card>
