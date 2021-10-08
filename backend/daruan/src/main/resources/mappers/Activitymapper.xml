@@ -39,6 +39,14 @@
         start <![CDATA[<=]]>#{nowtime,jdbcType=TIMESTAMP} and
         deadline <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP}
     </select>
+    <select id="haventstart" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from activity
+        where
+        deadline <![CDATA[<]]>#{nowtime,jdbcType=TIMESTAMP} and
+        time_start <![CDATA[>]]>#{nowtime,jdbcType=TIMESTAMP}
+    </select>
     <select id="inprogress" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

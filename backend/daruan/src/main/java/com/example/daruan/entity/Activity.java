@@ -1,5 +1,7 @@
 package com.example.daruan.entity;
 
+import io.swagger.models.auth.In;
+
 public class Activity {
     Integer id;
     String title;
@@ -14,6 +16,7 @@ public class Activity {
     String time_start; //活动开始时间
     String time_end;  //活动结束时间
     String start; //开始报名时间
+    Integer state;
 
     public Integer getId() {
         return id;
@@ -117,5 +120,13 @@ public class Activity {
 
     public void setStart(String start) {
         this.start = start;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
     }
 }

@@ -6,6 +6,7 @@ import com.example.daruan.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.models.auth.In;
 import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -92,5 +93,22 @@ public class usercontroller {
         return "login";
     }
 
+    @GetMapping("/currentUser")
+    public JSONObject current(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject res = new JSONObject();
+        Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        User userinfo = service.getUserInfoByid(userid);
+        res.put("userinfo",userinfo);
+        res.put("code",1);
+        res.put("msg","获取成功");
+        return res;
+    }
 
 }

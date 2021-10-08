@@ -10,4 +10,5 @@ public interface Activitymapper {
     List<Activity> register(String nowtime);
     List<Activity> inprogress(String nowtime);
     List<Activity> complete(String nowtime);
+    List<Activity> haventstart(String nowtime);
 }

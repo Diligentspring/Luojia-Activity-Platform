@@ -32,4 +32,6 @@ public class ActivityImpl implements Activityservice {
     public List<Activity> complete(String nowtime){
         return activitymapper.complete(nowtime);
     };
+    @Override
+    public List<Activity> haventstart(String nowtime){return activitymapper.haventstart(nowtime);};
 }

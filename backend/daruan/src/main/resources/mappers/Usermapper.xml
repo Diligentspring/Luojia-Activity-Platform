@@ -11,9 +11,12 @@
         <result column="phone" jdbcType="VARCHAR" property="phone"/>
         <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="birth_date" jdbcType="DATE" property="birth_date"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="school" jdbcType="VARCHAR" property="school"/>
+        <result column="grade" jdbcType="VARCHAR" property="grade"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, username, `password`, authority, sex, phone, major, email, birth_date
+        `id`, username, `password`, authority, sex, phone, major, email, birth_date, avatar, school, grade
     </sql>
     <insert id="createuser" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.User" useGeneratedKeys="true">
         insert into user(username,`password`)
