@@ -14,7 +14,7 @@ const Playground = () => {
 
   const fetchAllActivities = async () => {
     const res = await getAllActivities();
-    setDataSource(res.res);
+    setDataSource(res.data);
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Playground = () => {
               if (key === '0') fetchAllActivities();
               else {
                 const res = await getFilteredActivities({ key: parseInt(key) });
-                setDataSource(res.res);
+                setDataSource(res.data);
               }
             }}
           >

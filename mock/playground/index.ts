@@ -126,7 +126,7 @@ const activitiesList: ActivityProps[] = [
 ];
 const getAllResponse = (req: Request, res: Response) => {
   res.json({
-    res: activitiesList,
+    data: activitiesList,
     code: 1,
     msg: '活动获取成功!',
   });
@@ -136,7 +136,7 @@ const getFilterResponse = (req: Request, res: Response) => {
   const { query } = req;
 
   res.json({
-    res: activitiesList.filter((item: ActivityProps, id: number) => {
+    data: activitiesList.filter((item: ActivityProps, id: number) => {
       if (item.status?.toString() === query.key) {
         return true;
       } else {

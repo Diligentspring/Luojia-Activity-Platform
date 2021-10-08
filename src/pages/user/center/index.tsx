@@ -26,7 +26,7 @@ const Center = () => {
               className={styles.avatar}
             ></Avatar>
             <div className={styles.briefInfoDiv}>
-              <div className={styles.userName}>{shared?.user?.name}</div>
+              <div className={styles.userName}>{shared?.user?.username}</div>
               <div className={styles.otherInfo}>
                 <div>
                   <MailOutlined /> {shared?.user?.email}
@@ -35,7 +35,7 @@ const Center = () => {
                   <MobileOutlined /> {shared?.user?.phone}
                 </div>
                 <div>
-                  <CalendarOutlined /> {shared?.user?.birthday || '2000-01-01'}
+                  <CalendarOutlined /> {shared?.user?.birthdate || '2000-01-01'}
                 </div>
               </div>
             </div>

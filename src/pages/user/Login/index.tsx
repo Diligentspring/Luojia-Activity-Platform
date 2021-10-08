@@ -1,12 +1,14 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, Space, message, Tabs } from 'antd';
 import React, { useState } from 'react';
-import ProForm, { ProFormCheckbox, ProFormText } from '@ant-design/pro-form';
-import { Link, history, FormattedMessage, SelectLang, useModel } from 'umi';
+import ProForm, { ProFormText } from '@ant-design/pro-form';
+import { Link, history, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/ant-design-pro/api';
-
+import { login } from '@/services/login';
 import styles from './index.less';
+import { LoginAndRegisterRequestParams } from '@/services/typings';
+import { fetchCurrentUser } from '../../../services/login';
+import { useStore } from '@/models';
 
 const LoginMessage: React.FC<{
   content: string;
@@ -24,25 +26,27 @@ const LoginMessage: React.FC<{
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
+  // const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-
+  const [shared, { setShared }] = useStore('Shared');
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      await setInitialState((s) => ({
-        ...s,
-        currentUser: userInfo,
-      }));
+    const res = await fetchCurrentUser();
+    if (res?.code === 1) {
+      setInitialState((s) => {
+        return { ...s, currentUser: res.data };
+      });
+      setShared({ ...shared, user: res.data });
+    } else {
+      setUserLoginState({ status: 'error', type: 'account' });
     }
   };
 
-  const handleSubmit = async (values: API.LoginParams) => {
+  const handleSubmit = async (values: LoginAndRegisterRequestParams) => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      const res = await login({ ...values });
+      if (res?.code === 1) {
         const defaultLoginSuccessMessage = '登录成功！';
         message.success(defaultLoginSuccessMessage);
         await fetchUserInfo();
@@ -54,7 +58,7 @@ const Login: React.FC = () => {
         return;
       }
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      else setUserLoginState({ status: 'error', type: 'account' });
     } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';
 
@@ -67,7 +71,7 @@ const Login: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.lang} data-lang>
-        {SelectLang && <SelectLang />}
+        {/* {SelectLang && <SelectLang />} */}
       </div>
       <div className={styles.content}>
         <div className={styles.top}>
@@ -99,10 +103,10 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              await handleSubmit(values as API.LoginParams);
+              await handleSubmit(values as LoginAndRegisterRequestParams);
             }}
           >
-            <Tabs activeKey={type} onChange={setType}>
+            <Tabs activeKey="account">
               <Tabs.TabPane key="account" tab={'账户密码登录'} />
               {/* <Tabs.TabPane
                 key="mobile"
@@ -114,48 +118,38 @@ const Login: React.FC = () => {
             {status === 'error' && loginType === 'account' && (
               <LoginMessage content={'账户或密码错误(admin/ant.design)'} />
             )}
-            {type === 'account' && (
-              <>
-                <ProFormText
-                  name="username"
-                  fieldProps={{
-                    size: 'large',
-                    prefix: <UserOutlined className={styles.prefixIcon} />,
-                  }}
-                  placeholder={'用户名: admin or user'}
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <FormattedMessage
-                          id="pages.login.username.required"
-                          defaultMessage="请输入用户名!"
-                        />
-                      ),
-                    },
-                  ]}
-                />
-                <ProFormText.Password
-                  name="password"
-                  fieldProps={{
-                    size: 'large',
-                    prefix: <LockOutlined className={styles.prefixIcon} />,
-                  }}
-                  placeholder={'密码: ant.design'}
-                  rules={[
-                    {
-                      required: true,
-                      message: (
-                        <FormattedMessage
-                          id="pages.login.password.required"
-                          defaultMessage="请输入密码！"
-                        />
-                      ),
-                    },
-                  ]}
-                />
-              </>
-            )}
+            {/* {type === 'account' && ( */}
+            <>
+              <ProFormText
+                name="username"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder={'用户名: admin or user'}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入用户名!',
+                  },
+                ]}
+              />
+              <ProFormText.Password
+                name="password"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined className={styles.prefixIcon} />,
+                }}
+                placeholder={'密码: ant.design'}
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入密码！',
+                  },
+                ]}
+              />
+            </>
+            {/* )} */}
 
             {/* {status === 'error' && loginType === 'mobile' && <LoginMessage content="验证码错误" />}
             {type === 'mobile' && (
@@ -231,7 +225,7 @@ const Login: React.FC = () => {
                 />
               </>
             )} */}
-            <div
+            {/* <div
               style={{
                 marginBottom: 24,
               }}
@@ -246,10 +240,10 @@ const Login: React.FC = () => {
               >
                 <FormattedMessage id="pages.login.forgotPassword" defaultMessage="忘记密码" />
               </a>
-            </div>
+            </div> */}
           </ProForm>
           <Space className={styles.other}>
-            <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" />
+            {/* <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" /> */}
             {/* <AlipayCircleOutlined className={styles.icon} />
             <TaobaoCircleOutlined className={styles.icon} />
             <WeiboCircleOutlined className={styles.icon} /> */}
