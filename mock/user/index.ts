@@ -23,9 +23,12 @@ const currentUserResponse: BasicResponseType<UserInfoType> = {
 };
 
 const updateResponse = { code: 1, msg: '修改成功!' };
+
+const logoutResponse = { code: 1, msg: '退出登录!' };
 export default {
   'GET /api/user/login': loginResponse,
   'POST /api/user/register': registerResponse,
   'GET /api/user/currentUser': currentUserResponse,
   'POST /api/user/update': updateResponse,
+  'GET /api/user/logout': logoutResponse,
 };

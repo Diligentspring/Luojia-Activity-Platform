@@ -38,6 +38,18 @@ export async function fetchCurrentUser() {
     .catch((err) => console.log(err));
 }
 
+// 退出登录
+export async function logout() {
+  return request('/api/user/logout', {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
+
 // 修改用户信息
 export async function UpdateUserInfo(params?: Partial<UserInfoType>) {
   return request('/api/user/update', {
