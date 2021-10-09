@@ -4,17 +4,7 @@ export interface BasicResponseType<T> {
   data?: T;
 }
 
-export interface UserInfoType {
-  userid?: number;
-  username?: string;
-  password?: string;
-  avatar?: string;
-  email?: string;
-  phone?: string;
-  birthdate?: string;
-  sex?: string;
-  major?: string;
-}
+export type UserInfoType = API.currentUser;
 
 export interface LoginAndRegisterRequestParams {
   username: string;

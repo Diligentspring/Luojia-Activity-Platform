@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { Link, history, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/login';
+import { login } from '@/services/user';
 import styles from './index.less';
 import { LoginAndRegisterRequestParams } from '@/services/typings';
-import { fetchCurrentUser } from '../../../services/login';
+import { fetchCurrentUser } from '../../../services/user';
 import { useStore } from '@/models';
 
 const LoginMessage: React.FC<{

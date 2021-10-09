@@ -5,7 +5,7 @@ import request from 'umi-request';
 import { BasicResponseType } from '../typings';
 
 export async function getAllActivities(params?: {}) {
-  return request('/api/getall', {
+  return request('/api/activity/getall', {
     method: 'GET',
     params: { ...params },
     credentials: 'include',
@@ -15,7 +15,7 @@ export async function getAllActivities(params?: {}) {
 }
 
 export async function getFilteredActivities(params?: { key: StatusType }) {
-  return request('/api/filter', {
+  return request('/api/activity/filter', {
     method: 'GET',
     params: { ...params },
     credentials: 'include',

@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
 import { UserInfoType } from './services/typings';
-import { fetchCurrentUser } from './services/login';
+import { fetchCurrentUser } from './services/user';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -31,7 +31,7 @@ export async function getInitialState(): Promise<{
       console.log(res);
       return res.data;
     } catch (error) {
-      // history.push(loginPath);
+      history.push(loginPath);
     }
     return undefined;
   };

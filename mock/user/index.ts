@@ -1,12 +1,11 @@
 import { BasicResponseType, UserInfoType } from '@/services/typings';
-import { Request, Response } from 'express';
 
-const LoginResponse: BasicResponseType<null> = {
+const loginResponse: BasicResponseType<null> = {
   code: 1,
   msg: '登录成功!',
 };
 
-const RegisterResponse: BasicResponseType<null> = { code: 1, msg: '注册成功!' };
+const registerResponse: BasicResponseType<null> = { code: 1, msg: '注册成功!' };
 
 const currentUserResponse: BasicResponseType<UserInfoType> = {
   code: 1,
@@ -22,8 +21,11 @@ const currentUserResponse: BasicResponseType<UserInfoType> = {
     major: '计算机科学与技术',
   },
 };
+
+const updateResponse = { code: 1, msg: '修改成功!' };
 export default {
-  'GET /api/login': LoginResponse,
-  'POST /api/register': RegisterResponse,
-  'GET /api/currentUser': currentUserResponse,
+  'GET /api/user/login': loginResponse,
+  'POST /api/user/register': registerResponse,
+  'GET /api/user/currentUser': currentUserResponse,
+  'POST /api/user/update': updateResponse,
 };

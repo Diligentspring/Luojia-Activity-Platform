@@ -149,6 +149,6 @@ const getFilterResponse = (req: Request, res: Response) => {
 };
 
 export default {
-  'GET /api/getall': getAllResponse,
-  'GET /api/filter': getFilterResponse,
+  'GET /api/activity/getall': getAllResponse,
+  'GET /api/activity/filter': getFilterResponse,
 };

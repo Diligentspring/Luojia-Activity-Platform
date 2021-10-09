@@ -12,6 +12,8 @@ declare namespace API {
     birthdate?: string;
     sex?: string;
     major?: string;
+    school?: string;
+    grade?: string;
   };
 
   type LoginResult = {
