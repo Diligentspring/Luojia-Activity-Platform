@@ -1,19 +1,21 @@
 import react from 'react';
 import { StatusType } from './status';
-import { Button, Card, Typography } from 'antd';
+import { Button, Card, message, Typography } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import { activityApply, cancelApplication } from '@/services/playground';
 
 const { Title } = Typography;
 
 export interface ActivityProps {
-  id: number;
+  id: string;
   title?: string; // 活动标题
+  type?: string; // 活动种类
   desc?: string; // 活动描述
   organizer?: string; // 组织者
-  creatTime?: string; // 创建时间
+  createTime?: string; // 创建时间
   duration?: string; // 持续时间
   location?: string; // 活动地点
   status?: StatusType; // 活动状态
@@ -31,7 +33,7 @@ const Activity = (props: ActivityProps) => {
     title,
     desc,
     organizer,
-    creatTime,
+    createTime,
     duration,
     location,
     status,
@@ -68,7 +70,7 @@ const Activity = (props: ActivityProps) => {
           </div>
           <div className={styles.activity_right_div}>
             <div>{organizer}</div>
-            <div>{creatTime}</div>
+            <div>{createTime}</div>
             <div className={styles.activity_like_div}>
               <div>
                 <LikeOutlined />
@@ -79,7 +81,35 @@ const Activity = (props: ActivityProps) => {
                 {dislikes}
               </div>
             </div>
-            <div>{!participated ? <Button>我要参加</Button> : <Button>取消报名</Button>}</div>
+            <div>
+              {!participated ? (
+                <Button
+                  onClick={async () => {
+                    const res = await activityApply({ activity_ID: id });
+                    if (res?.code === 1) {
+                      message.success('报名成功!');
+                    } else {
+                      message.error('报名失败, 请重试!');
+                    }
+                  }}
+                >
+                  我要参加
+                </Button>
+              ) : (
+                <Button
+                  onClick={async () => {
+                    const res = await cancelApplication({ activity_ID: id });
+                    if (res?.code === 1) {
+                      message.success('取消报名成功!');
+                    } else {
+                      message.error('取消报名失败, 请重试!');
+                    }
+                  }}
+                >
+                  取消报名
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </Card>

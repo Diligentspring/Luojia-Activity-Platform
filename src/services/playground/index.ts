@@ -23,3 +23,27 @@ export async function getFilteredActivities(params?: { key: StatusType }) {
     return responseHandler(res);
   });
 }
+
+export async function activityApply(params?: { activity_ID: string }) {
+  return request('/api/activity/register', {
+    method: 'POST',
+    params: { ...params },
+    credentials: 'include',
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
+
+export async function cancelApplication(params: { activity_ID: string }) {
+  return request('/api/activity/quit', {
+    method: 'POST',
+    credentials: 'include',
+    params: { ...params },
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
