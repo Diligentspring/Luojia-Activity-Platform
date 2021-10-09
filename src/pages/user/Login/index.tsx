@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
 import { Link, history, useModel } from 'umi';
 import Footer from '@/components/Footer';
-import { login } from '@/services/user';
+import { login, register } from '@/services/user';
 import styles from './index.less';
 import { LoginAndRegisterRequestParams } from '@/services/typings';
 import { fetchCurrentUser } from '../../../services/user';
@@ -23,16 +23,22 @@ const LoginMessage: React.FC<{
   />
 );
 
+enum TabType {
+  LOGIN,
+  REGISTER,
+}
 const Login: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
+  const [type, setType] = useState<TabType>(TabType.LOGIN);
   // const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
   const [shared, { setShared }] = useStore('Shared');
+
   const fetchUserInfo = async () => {
     const res = await fetchCurrentUser();
     if (res?.code === 1) {
-      setInitialState((s) => {
+      setInitialState((s: any) => {
         return { ...s, currentUser: res.data };
       });
       setShared({ ...shared, user: res.data });
@@ -66,6 +72,26 @@ const Login: React.FC = () => {
     }
     setSubmitting(false);
   };
+
+  const handleRegister = async (values: LoginAndRegisterRequestParams) => {
+    setSubmitting(true);
+    try {
+      // 注册
+      const res = await register({ ...values });
+      if (res?.code === 1) {
+        const defaultRegisterSuccessMessage = '注册成功！请登录!';
+        message.success(defaultRegisterSuccessMessage);
+        setType(TabType.LOGIN);
+      }
+      // 如果失败去设置用户错误信息
+      else setUserLoginState({ status: 'error', type: 'account' });
+    } catch (error) {
+      const defaultRegisterFailureMessage = '注册失败，请重试！';
+      message.error(defaultRegisterFailureMessage);
+    }
+    setSubmitting(false);
+  };
+
   const { status, type: loginType } = userLoginState;
 
   return (
@@ -91,7 +117,7 @@ const Login: React.FC = () => {
             }}
             submitter={{
               searchConfig: {
-                submitText: '登录',
+                submitText: type === TabType.LOGIN ? '登录' : '注册',
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
@@ -103,11 +129,18 @@ const Login: React.FC = () => {
               },
             }}
             onFinish={async (values) => {
-              await handleSubmit(values as LoginAndRegisterRequestParams);
+              if (type === TabType.LOGIN) {
+                await handleSubmit(values as LoginAndRegisterRequestParams);
+              } else {
+                await handleRegister(values as LoginAndRegisterRequestParams);
+              }
             }}
           >
             <Tabs activeKey="account">
-              <Tabs.TabPane key="account" tab={'账户密码登录'} />
+              <Tabs.TabPane
+                key="account"
+                tab={type === TabType.LOGIN ? '账户密码登录' : '注册账号'}
+              />
               {/* <Tabs.TabPane
                 key="mobile"
                 tab={'手机号登录'
@@ -243,6 +276,13 @@ const Login: React.FC = () => {
             </div> */}
           </ProForm>
           <Space className={styles.other}>
+            <a
+              onClick={() => {
+                type === TabType.LOGIN ? setType(TabType.REGISTER) : setType(TabType.LOGIN);
+              }}
+            >
+              {type === TabType.LOGIN ? '注册账号' : '立即登录'}
+            </a>
             {/* <FormattedMessage id="pages.login.loginWith" defaultMessage="其他登录方式" /> */}
             {/* <AlipayCircleOutlined className={styles.icon} />
             <TaobaoCircleOutlined className={styles.icon} />

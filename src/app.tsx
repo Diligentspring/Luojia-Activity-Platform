@@ -28,7 +28,6 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const res = await fetchCurrentUser();
-      console.log(res);
       return res.data;
     } catch (error) {
       history.push(loginPath);
@@ -38,7 +37,6 @@ export async function getInitialState(): Promise<{
   // 如果是登录页面，不执行
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
-    console.log('currentUser:', currentUser);
     return {
       fetchUserInfo,
       currentUser,
@@ -53,9 +51,7 @@ export async function getInitialState(): Promise<{
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = (props: any) => {
-  console.log(props);
   const { initialState } = props;
-  console.log('initialState:', initialState);
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: true,

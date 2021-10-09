@@ -17,13 +17,15 @@ export async function login(params: LoginAndRegisterRequestParams) {
 
 // 用户注册
 export async function register(params: LoginAndRegisterRequestParams) {
-  return request('api/user/register', {
+  return request('/api/user/register', {
     method: 'POST',
     params: { ...params },
     credentials: 'include',
-  }).then((res: BasicResponseType<null>) => {
-    return responseHandler(res);
-  });
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
 }
 
 // 用户登录
