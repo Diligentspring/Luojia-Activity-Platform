@@ -17,6 +17,7 @@ public class Activity {
     String time_end;  //活动结束时间
     String start; //开始报名时间
     Integer state;
+    Integer already_register;
 
     public Integer getId() {
         return id;
@@ -128,5 +129,13 @@ public class Activity {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getAlready_register() {
+        return already_register;
+    }
+
+    public void setAlready_register(Integer already_register) {
+        this.already_register = already_register;
     }
 }

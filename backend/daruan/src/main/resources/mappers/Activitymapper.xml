@@ -15,6 +15,7 @@
         <result column="time_start" jdbcType="TIMESTAMP" property="time_start"/>
         <result column="time_end" jdbcType="TIMESTAMP" property="time_end"/>
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
+        <result column="already_register" jdbcType="INTEGER" property="already_register"/>
     </resultMap>
     <sql id="Base_Column_List">
         `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start
