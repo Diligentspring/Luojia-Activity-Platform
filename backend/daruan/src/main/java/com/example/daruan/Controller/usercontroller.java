@@ -2,6 +2,7 @@ package com.example.daruan.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.UserImpl;
+import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -109,6 +110,24 @@ public class usercontroller {
         res.put("code",1);
         res.put("msg","获取成功");
         return res;
+    }
+    
+    @PostMapping("/update")
+    public JsonNode update(@RequestBody User user, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        user.setId(userid);
+        service.update(user);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        result.put("code:", 1);
+        result.put("msg","更新成功！");
+        return result;
     }
 
 }

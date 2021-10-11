@@ -147,9 +147,9 @@ public class activitycontroller {
             }
         }
         activity.setOrganizer(userid);
+        activity.setAlready_register(0);
         activityservice.newactivity(activity);
         ObjectNode result = new ObjectMapper().createObjectNode();
-        
         result.put("code:", 1);
         result.put("msg","活动发布成功！");
         return result;
@@ -183,11 +183,43 @@ public class activitycontroller {
                 break;
             }
         }
-        System.err.print(actid);
-        activityservice.interactivity(userid, actid, 0);
+        //System.err.print(actid);
+        activityservice.interactivity(userid, actid);
+        activityservice.register(actid);
+        
         ObjectNode result = new ObjectMapper().createObjectNode();
         result.put("code:", 1);
         result.put("msg","报名成功！");
+        return result;
+    }
+    
+    @PostMapping("/quit")
+    public JsonNode quitactivity(@RequestParam(value="actid") Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        //System.err.print(actid);
+        activityservice.quitactivity(userid, actid);
+        activityservice.deregister(actid);
+        
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        result.put("code:", 1);
+        result.put("msg","撤销报名成功！");
+        return result;
+    }
+    
+    @PostMapping("/cancel")
+    public JsonNode cancelactivity(@RequestParam(value="actid") Integer actid){
+        activityservice.cancelactivity(actid);
+        activityservice.cancelregister(actid);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        result.put("code:", 1);
+        result.put("msg","活动取消成功！");
         return result;
     }
 }

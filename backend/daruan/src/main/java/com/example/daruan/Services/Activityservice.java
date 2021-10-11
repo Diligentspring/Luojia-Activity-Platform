@@ -14,5 +14,10 @@ public interface Activityservice {
     List<Activity> queryactivity(String title);
     void newactivity(Activity activity);
     void modactivity(Activity activity);
-    void interactivity(Integer userid, Integer actid, Integer role);
+    void interactivity(Integer userid, Integer actid);
+    void register(Integer actid);
+    void quitactivity(Integer userid, Integer actid);
+    void deregister(Integer actid);
+    void cancelactivity(Integer actid);
+    void cancelregister(Integer actid);
 }

@@ -44,7 +44,22 @@ public class ActivityImpl implements Activityservice {
     public void modactivity(Activity activity){
         activitymapper.modactivity(activity);
     }
-    public void interactivity(Integer userid, Integer actid, Integer role) {
-    	activitymapper.interactivity(userid, actid, role);
+    public void interactivity(Integer userid, Integer actid) {
+    	activitymapper.interactivity(userid, actid);
+    }
+    public void register(Integer actid) {
+    	activitymapper.registeractivity(actid);
+    }
+    public void quitactivity(Integer userid, Integer actid) {
+    	activitymapper.quitactivity(userid, actid);
+    }
+    public void deregister(Integer actid) {
+    	activitymapper.deregisteractivity(actid);
+    }
+    public void cancelactivity(Integer actid) {
+    	activitymapper.cancelactivity(actid);
+    }
+    public void cancelregister(Integer actid) {
+    	activitymapper.cancelregister(actid);
     }
 }

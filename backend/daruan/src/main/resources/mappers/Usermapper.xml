@@ -34,4 +34,22 @@
         from user
         where id=#{id,jdbcType=INTEGER}
     </select>
+    <update id="updateuser" parameterType="com.example.daruan.entity.User">
+        update user
+        <set>
+        <if test="username != null"> username = #{username, jdbcType=VARCHAR},</if>
+        <if test="password != null"> password = #{password, jdbcType=VARCHAR},</if>
+		<if test="authority != null"> authority = #{authority, jdbcType=VARCHAR},</if>
+		<if test="sex != null"> sex = #{sex, jdbcType=VARCHAR},</if>
+		<if test="major != null"> major = #{major, jdbcType=VARCHAR},</if>
+        <if test="phone != null"> phone = #{phone, jdbcType=VARCHAR},</if>
+		<if test="authority != null"> authority = #{authority, jdbcType=VARCHAR},</if>
+		<if test="email != null"> email = #{email, jdbcType=VARCHAR},</if>
+		<if test="birth_date != null"> birth_date = #{birth_date, jdbcType=TIMESTAMP},</if>
+		<if test="avatar != null"> avatar = #{avatar, jdbcType=VARCHAR},</if>
+        <if test="school != null"> school = #{school, jdbcType=VARCHAR},</if>
+		<if test="grade != null"> grade = #{grade, jdbcType=VARCHAR},</if> 
+        </set>
+        where id = #{id, jdbcType=INTEGER}
+    </update>
 </mapper>

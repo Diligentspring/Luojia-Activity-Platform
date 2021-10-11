@@ -69,12 +69,14 @@
         from activity
         where title=#{title,jdbcType=VARCHAR}
     </select>
-    <insert id="newactivity" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Activity" useGeneratedKeys="true">
+    <insert id="newactivity" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Activity"
+     useGeneratedKeys="true">
         insert into activity(title, site, number_people, deadline, introduction, organizer, 
-         time_start, time_end, start)
+         time_start, time_end, start, already_register)
         values(#{title, jdbcType=VARCHAR}, #{site, jdbcType=VARCHAR}, #{number_people, jdbcType=INTEGER}, 
         #{deadline, jdbcType=TIMESTAMP}, #{introduction, jdbcType=VARCHAR}, #{organizer, jdbcType=INTEGER},
-        #{time_start, jdbcType=TIMESTAMP}, #{time_end, jdbcType=TIMESTAMP}, #{start, jdbcType=TIMESTAMP})
+        #{time_start, jdbcType=TIMESTAMP}, #{time_end, jdbcType=TIMESTAMP}, #{start, jdbcType=TIMESTAMP},
+        #{already_register, jdbcType=INTEGER})
     </insert>
     <update id="modactivity" parameterType="com.example.daruan.entity.Activity">
         update activity
@@ -91,8 +93,31 @@
         where organizer = #{organizer, jdbcType=INTEGER}
         	AND id = #{id, jdbcType=INTEGER}
     </update>
-    <insert id="interactivity" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+    <insert id="interactivity" keyColumn="id"  useGeneratedKeys="true">
         insert into useractivity set
-        userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}, role=#{role, jdbcType=INTEGER}
+        userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}
     </insert>
+    <update id="registeractivity" parameterType="java.lang.Integer">
+        update activity
+        set already_register = already_register + 1
+        where id = #{actid, jdbcType=INTEGER}
+    </update>
+    <delete id="quitactivity">
+        delete from useractivity
+        where userid=#{userid, jdbcType=INTEGER}
+         AND actid=#{actid, jdbcType=INTEGER}
+    </delete>
+    <update id="deregisteractivity" parameterType="java.lang.Integer">
+        update activity
+        set already_register = already_register - 1
+        where id = #{actid, jdbcType=INTEGER}
+    </update>
+    <delete id="cancelactivity" parameterType="java.lang.Integer">
+        delete from activity
+        where id=#{actid, jdbcType=INTEGER}
+    </delete>
+    <delete id="cancelregister" parameterType="java.lang.Integer">
+        delete from useractivity
+        where actid=#{actid, jdbcType=INTEGER}
+    </delete>
 </mapper>

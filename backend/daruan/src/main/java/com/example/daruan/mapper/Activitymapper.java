@@ -15,5 +15,10 @@ public interface Activitymapper {
     List<Activity> queryactivity(String title);
     void newactivity(Activity activity);
     void modactivity(Activity activity);
-    void interactivity(@Param("userid") Integer userid, @Param("actid") Integer actid, @Param("role") Integer role);
+    void interactivity(Integer userid, Integer actid);
+    void registeractivity(Integer actid);
+    void quitactivity(Integer userid, Integer actid);
+    void deregisteractivity(Integer actid);
+    void cancelactivity(Integer actid);
+    void cancelregister(Integer actid);
 }

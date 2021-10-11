@@ -5,4 +5,5 @@ public interface Usermapper {
     int createuser(User user);
     User getUserInfoByAccount(String username);
     User getUserInfoByid(int userid);
+    void updateuser(User user);
 }

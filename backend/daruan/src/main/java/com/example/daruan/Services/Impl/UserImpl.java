@@ -23,4 +23,7 @@ public class UserImpl implements Userservice {
     public User getUserInfoByid(int userid){
         return Usermapper.getUserInfoByid(userid);
     }
+    public void update(User user) {
+    	Usermapper.updateuser(user);
+    }
 }
