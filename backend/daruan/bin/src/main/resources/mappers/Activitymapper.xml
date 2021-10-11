@@ -63,36 +63,4 @@
         where
         time_end <![CDATA[<]]>#{nowtime,jdbcType=TIMESTAMP}
     </select>
-    <select id="queryactivity" parameterType="java.lang.String" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from activity
-        where title=#{title,jdbcType=VARCHAR}
-    </select>
-    <insert id="newactivity" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Activity" useGeneratedKeys="true">
-        insert into activity(title, site, number_people, deadline, introduction, organizer, 
-         time_start, time_end, start)
-        values(#{title, jdbcType=VARCHAR}, #{site, jdbcType=VARCHAR}, #{number_people, jdbcType=INTEGER}, 
-        #{deadline, jdbcType=TIMESTAMP}, #{introduction, jdbcType=VARCHAR}, #{organizer, jdbcType=INTEGER},
-        #{time_start, jdbcType=TIMESTAMP}, #{time_end, jdbcType=TIMESTAMP}, #{start, jdbcType=TIMESTAMP})
-    </insert>
-    <update id="modactivity" parameterType="com.example.daruan.entity.Activity">
-        update activity
-        <set>
-        <if test="title != null"> title = #{title, jdbcType=VARCHAR},</if>
-        <if test="site != null"> site = #{site, jdbcType=VARCHAR},</if>
-		<if test="number_people != null"> number_people = #{number_people, jdbcType=INTEGER},</if>
-		<if test="deadline != null"> deadline = #{deadline, jdbcType=TIMESTAMP},</if>
-		<if test="introduction != null"> introduction = #{introduction, jdbcType=VARCHAR},</if>
-		<if test="time_start != null"> time_start = #{time_start, jdbcType=TIMESTAMP},</if>
-		<if test="time_end != null"> time_end = #{time_end, jdbcType=TIMESTAMP},</if>
-		<if test="start != null"> start = #{start, jdbcType=TIMESTAMP},</if>        
-        </set>
-        where organizer = #{organizer, jdbcType=INTEGER}
-        	AND id = #{id, jdbcType=INTEGER}
-    </update>
-    <insert id="interactivity" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
-        insert into useractivity set
-        userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}, role=#{role, jdbcType=INTEGER}
-    </insert>
 </mapper>

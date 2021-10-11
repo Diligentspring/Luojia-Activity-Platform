@@ -11,4 +11,8 @@ public interface Activityservice {
     List<Activity> inprogress(String nowtime);
     List<Activity> complete(String nowtime);
     List<Activity> haventstart(String nowtime);
+    List<Activity> queryactivity(String title);
+    void newactivity(Activity activity);
+    void modactivity(Activity activity);
+    void interactivity(Integer userid, Integer actid, Integer role);
 }

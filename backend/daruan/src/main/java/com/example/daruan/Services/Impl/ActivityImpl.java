@@ -34,4 +34,17 @@ public class ActivityImpl implements Activityservice {
     };
     @Override
     public List<Activity> haventstart(String nowtime){return activitymapper.haventstart(nowtime);};
+    @Override
+    public List<Activity> queryactivity(String title){
+        return activitymapper.queryactivity(title);
+    }
+    public void newactivity(Activity activity){
+        activitymapper.newactivity(activity);
+    }
+    public void modactivity(Activity activity){
+        activitymapper.modactivity(activity);
+    }
+    public void interactivity(Integer userid, Integer actid, Integer role) {
+    	activitymapper.interactivity(userid, actid, role);
+    }
 }

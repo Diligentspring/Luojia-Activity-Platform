@@ -3,9 +3,18 @@ package com.example.daruan.Controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.entity.Activity;
+import com.example.daruan.entity.User;
+import com.example.daruan.entity.Useractivity;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
@@ -13,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/activity")
@@ -110,6 +122,72 @@ public class activitycontroller {
         result.put("msg","活动查询完成！");
         result.put("code",1);
         result.put("key",key);
+        return result;
+    }
+    
+    @GetMapping("/query")
+    public JSONObject QueryActivity(String title){
+        JSONObject result = new JSONObject();
+        List<Activity> activitylist = new ArrayList<>();
+        activitylist = activityservice.queryactivity(title);
+        result.put("data",activitylist);
+        result.put("msg","活动获取成功");
+        result.put("code",1);
+        return result;
+    }
+    
+    @PostMapping("/publish")
+    public JsonNode newactivity(@RequestBody Activity activity, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        activity.setOrganizer(userid);
+        activityservice.newactivity(activity);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        
+        result.put("code:", 1);
+        result.put("msg","活动发布成功！");
+        return result;
+    }
+    
+    @PostMapping("/modify")
+    public JsonNode modactivity(@RequestBody Activity activity, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        activity.setOrganizer(userid);
+        activityservice.modactivity(activity);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        result.put("code:", 1);
+        result.put("msg","活动修改成功！");
+        return result;
+    }
+    
+    @PostMapping("/register")
+    public JsonNode regactivity(@RequestParam(value="actid") Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        System.err.print(actid);
+        activityservice.interactivity(userid, actid, 0);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        result.put("code:", 1);
+        result.put("msg","报名成功！");
         return result;
     }
 }
