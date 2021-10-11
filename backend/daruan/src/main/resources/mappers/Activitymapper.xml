@@ -18,7 +18,7 @@
         <result column="already_register" jdbcType="INTEGER" property="already_register"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start
+        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start, already_register
     </sql>
     <select id="getallactivity" resultMap="BaseResultMap">
         select

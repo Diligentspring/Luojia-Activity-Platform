@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -130,4 +133,22 @@ public class usercontroller {
         return result;
     }
 
+    @GetMapping("/userpubactivity")
+    public JSONObject update(HttpServletRequest request) {
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        JSONObject result = new JSONObject();
+        List<Activity> activitylist = new ArrayList<>();
+        activitylist = service.userpubactivity(userid);
+        result.put("data",activitylist);
+        result.put("msg","活动获取成功");
+        result.put("code",1);
+        return result;
+    }
 }
