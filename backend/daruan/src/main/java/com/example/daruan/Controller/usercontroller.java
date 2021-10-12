@@ -2,6 +2,7 @@ package com.example.daruan.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.UserImpl;
+import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.User;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,6 +27,8 @@ import javax.servlet.http.HttpSession;
 public class usercontroller {
     @Autowired
     UserImpl service;
+    @Autowired
+    ActivityImpl activityservice;
     @PostMapping("/register")
     public JsonNode newuser(@RequestBody User user){
         ObjectNode result = new ObjectMapper().createObjectNode();
@@ -134,7 +137,7 @@ public class usercontroller {
     }
 
     @GetMapping("/userpubactivity")
-    public JSONObject update(HttpServletRequest request) {
+    public JSONObject userpubactivity(HttpServletRequest request) {
     	Cookie[] cookies = request.getCookies();
         Integer userid = 0;
         for (Cookie item : cookies) {
@@ -146,6 +149,31 @@ public class usercontroller {
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = service.userpubactivity(userid);
+        result.put("data",activitylist);
+        result.put("msg","活动获取成功");
+        result.put("code",1);
+        return result;
+    }
+    
+    @GetMapping("/userregactivity")
+    public JSONObject userregactivity(HttpServletRequest request) {
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        JSONObject result = new JSONObject();
+        List<Activity> activitylist = new ArrayList<>();
+        List<Integer> actids = new ArrayList<>();
+        actids = service.userregactid(userid);
+        for (Integer actid:actids) {
+        	Activity activity = new Activity();
+        	activity = activityservice.queryactbyid(actid);
+        	activitylist.add(activity);
+        }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
         result.put("code",1);

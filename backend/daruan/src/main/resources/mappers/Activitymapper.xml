@@ -120,4 +120,9 @@
         delete from useractivity
         where actid=#{actid, jdbcType=INTEGER}
     </delete>
+    <select id="queryactbyid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    	select <include refid="Base_Column_List" />
+        from activity
+        where id=#{actid,jdbcType=INTEGER}
+    </select>
 </mapper>

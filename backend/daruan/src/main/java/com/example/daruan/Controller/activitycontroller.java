@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/activity")
+@CrossOrigin(originPatterns="*",methods= {RequestMethod.GET, RequestMethod.POST})
 public class activitycontroller {
     @Autowired
     ActivityImpl activityservice;

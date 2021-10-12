@@ -10,4 +10,5 @@ public interface Usermapper {
     User getUserInfoByid(int userid);
     void updateuser(User user);
     List<Activity> userpubactivity(int userid);
+    List<Integer> userregactid(int userid); //查看用户参与的所有活动编号
 }

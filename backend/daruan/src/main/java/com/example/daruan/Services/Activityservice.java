@@ -11,7 +11,7 @@ public interface Activityservice {
     List<Activity> inprogress(String nowtime);
     List<Activity> complete(String nowtime);
     List<Activity> haventstart(String nowtime);
-    List<Activity> queryactivity(String title);
+    List<Activity> queryactivity(String title); //通过标题查询活动
     void newactivity(Activity activity);
     void modactivity(Activity activity);
     void interactivity(Integer userid, Integer actid);
@@ -20,4 +20,5 @@ public interface Activityservice {
     void deregister(Integer actid);
     void cancelactivity(Integer actid);
     void cancelregister(Integer actid);
+    Activity queryactbyid(Integer actid);//通过活动id查询活动
 }

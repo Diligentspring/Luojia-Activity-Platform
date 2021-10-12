@@ -77,4 +77,9 @@
         from activity
         where organizer=#{userid,jdbcType=INTEGER}
     </select>
+    <select id="userregactid" parameterType="java.lang.Integer" resultType = "java.lang.Integer">
+    	select actid
+        from useractivity
+        where userid=#{userid,jdbcType=INTEGER}
+    </select>
 </mapper>

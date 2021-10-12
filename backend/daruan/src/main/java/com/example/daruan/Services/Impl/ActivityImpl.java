@@ -62,4 +62,7 @@ public class ActivityImpl implements Activityservice {
     public void cancelregister(Integer actid) {
     	activitymapper.cancelregister(actid);
     }
+    public Activity queryactbyid(Integer actid) {
+    	return activitymapper.queryactbyid(actid);
+    }
 }

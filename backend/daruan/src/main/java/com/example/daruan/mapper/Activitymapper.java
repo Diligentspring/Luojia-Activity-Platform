@@ -21,4 +21,5 @@ public interface Activitymapper {
     void deregisteractivity(Integer actid);
     void cancelactivity(Integer actid);
     void cancelregister(Integer actid);
+    Activity queryactbyid(Integer actid);//通过活动id查询活动
 }
