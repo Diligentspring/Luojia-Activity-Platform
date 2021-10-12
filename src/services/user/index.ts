@@ -7,7 +7,6 @@ export async function login(params: LoginAndRegisterRequestParams) {
   return request('/api/user/login', {
     method: 'GET',
     params: { ...params },
-    credentials: 'include',
   })
     .then((res: BasicResponseType<null>) => {
       return responseHandler(res);
@@ -20,7 +19,6 @@ export async function register(params: LoginAndRegisterRequestParams) {
   return request('/api/user/register', {
     method: 'POST',
     params: { ...params },
-    credentials: 'include',
   })
     .then((res: BasicResponseType<null>) => {
       return responseHandler(res);
