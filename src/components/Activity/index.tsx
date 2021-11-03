@@ -13,15 +13,16 @@ export interface ActivityProps {
   id: string;
   title?: string; // 活动标题
   type?: string; // 活动种类
-  desc?: string; // 活动描述
+  introduction?: string; // 活动描述
   organizer?: string; // 组织者
-  createTime?: string; // 创建时间
-  duration?: string; // 持续时间
-  location?: string; // 活动地点
+  time_start?: string; // 活动创建时间
+  time_end?: string; // 活动结束时间
+  site?: string; // 活动地点
   status?: StatusType; // 活动状态
-  participantsNeeded?: number; // 招募人数
-  participantsAlready?: number; // 已有人数
-  cutOffTime?: number; // 截止时间
+  number_people?: number; // 招募人数
+  already_register?: number; // 已有人数
+  start?: string; // 报名开始时间
+  deadline?: string; // 报名截止时间
   likes?: number; // 点赞数
   dislikes?: number; // 点踩数
   participated?: boolean; // 是否已参加
@@ -31,15 +32,16 @@ const Activity = (props: ActivityProps) => {
   const {
     id,
     title,
-    desc,
+    introduction,
     organizer,
-    createTime,
-    duration,
-    location,
+    time_start,
+    time_end,
+    site,
     status,
-    participantsNeeded,
-    participantsAlready,
-    cutOffTime,
+    number_people,
+    already_register,
+    start,
+    deadline,
     likes,
     dislikes,
     participated,
@@ -66,11 +68,11 @@ const Activity = (props: ActivityProps) => {
               </div>
             </div>
 
-            <div style={{ color: 'gray' }}>{desc}</div>
+            <div style={{ color: 'gray' }}>{introduction}</div>
           </div>
           <div className={styles.activity_right_div}>
             <div>{organizer}</div>
-            <div>{createTime}</div>
+            <div>{time_start}</div>
             <div className={styles.activity_like_div}>
               <div>
                 <LikeOutlined />

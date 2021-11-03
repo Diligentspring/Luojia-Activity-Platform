@@ -54,7 +54,7 @@ const InfoItem = (props: ItemProps) => {
                       }}
                     />
                   );
-                case 'birthdate':
+                case 'birth_date':
                   return (
                     <DatePicker
                       defaultValue={moment(value)}
@@ -116,7 +116,7 @@ const InfoEditCard = () => {
     { key: 'email', label: '邮箱', value: shared?.user?.email },
     { key: 'phone', label: '联系电话', value: shared?.user?.phone },
     { key: 'password', label: '密码', value: shared?.user?.password },
-    { key: 'birthdate', label: '出生日期', value: shared?.user?.birthdate },
+    { key: 'birth_date', label: '出生日期', value: shared?.user?.birth_date },
     { key: 'sex', label: '性别', value: shared?.user?.sex },
     { key: 'major', label: '专业', value: shared?.user?.major },
     { key: 'school', label: '学院', value: shared?.user?.school },
@@ -124,7 +124,9 @@ const InfoEditCard = () => {
   ];
   return (
     <div>
-      {Info.map((item: any) => {
+      {
+      Info.map((item: any) => {
+        console.log(item)
         return <InfoItem id={item.key} {...item} />;
       })}
     </div>

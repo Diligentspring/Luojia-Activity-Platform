@@ -35,7 +35,7 @@ const Center = () => {
                   <MobileOutlined /> {shared?.user?.phone}
                 </div>
                 <div>
-                  <CalendarOutlined /> {shared?.user?.birthdate || '2000-01-01'}
+                  <CalendarOutlined /> {shared?.user?.birth_date || '2000-01-01'}
                 </div>
               </div>
             </div>

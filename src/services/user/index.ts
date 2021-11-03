@@ -1,4 +1,5 @@
 import responseHandler from '@/utils/response-handler';
+import ListBody from 'antd/lib/transfer/ListBody';
 import request from 'umi-request';
 import { BasicResponseType, LoginAndRegisterRequestParams, UserInfoType } from '../typings';
 
@@ -15,10 +16,12 @@ export async function login(params: LoginAndRegisterRequestParams) {
 }
 
 // 用户注册
-export async function register(params: LoginAndRegisterRequestParams) {
+export async function register(body: LoginAndRegisterRequestParams) {
   return request('/api/user/register', {
     method: 'POST',
-    params: { ...params },
+    
+    data: body,
+    headers:{'Content-Type': 'application/json',}
   })
     .then((res: BasicResponseType<null>) => {
       return responseHandler(res);
@@ -51,11 +54,11 @@ export async function logout() {
 }
 
 // 修改用户信息
-export async function UpdateUserInfo(params?: Partial<UserInfoType>) {
+export async function UpdateUserInfo(body?: Partial<UserInfoType>) {
   return request('/api/user/update', {
     method: 'POST',
     credentials: 'include',
-    params: { ...params },
+    data:body,
   })
     .then((res: BasicResponseType<null>) => {
       return responseHandler(res);
