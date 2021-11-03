@@ -39,7 +39,7 @@ public class usercontroller {
         }
         else {
             int status = service.createuser(user);
-            result.put("code:", status);
+            result.put("code", status);
             result.put("msg","注册成功！");
         }
         return result;
@@ -131,7 +131,7 @@ public class usercontroller {
         user.setId(userid);
         service.update(user);
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","更新成功！");
         return result;
     }
@@ -177,6 +177,12 @@ public class usercontroller {
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
         result.put("code",1);
+        return result;
+    }
+    
+    @GetMapping("/userstatistics")
+    public Integer UserStatistics(){
+        Integer result = service.userstatistics();
         return result;
     }
 }

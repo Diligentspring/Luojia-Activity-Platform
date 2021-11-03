@@ -21,4 +21,6 @@ public interface Activityservice {
     void cancelactivity(Integer actid);
     void cancelregister(Integer actid);
     Activity queryactbyid(Integer actid);//通过活动id查询活动
+    Integer activitystatistics();
+    Integer activityinprogress(String nowtime);
 }

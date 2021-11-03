@@ -12,4 +12,5 @@ public interface Userservice {
     void update(User user); //更新用户信息
     List<Activity> userpubactivity(int userid); //查看用户发布的所有活动
     List<Integer> userregactid(int userid); //查看用户参与的所有活动编号
+    Integer userstatistics();
 }

@@ -82,4 +82,8 @@
         from useractivity
         where userid=#{userid,jdbcType=INTEGER}
     </select>
+    <select id="userstatistics" resultType="java.lang.Integer">
+    	select count(*)
+    	from user
+    </select>
 </mapper>

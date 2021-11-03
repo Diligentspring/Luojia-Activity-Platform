@@ -152,7 +152,7 @@ public class activitycontroller {
         activity.setAlready_register(0);
         activityservice.newactivity(activity);
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","活动发布成功！");
         return result;
     }
@@ -170,7 +170,7 @@ public class activitycontroller {
         activity.setOrganizer(userid);
         activityservice.modactivity(activity);
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","活动修改成功！");
         return result;
     }
@@ -190,7 +190,7 @@ public class activitycontroller {
         activityservice.register(actid);
         
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","报名成功！");
         return result;
     }
@@ -210,7 +210,7 @@ public class activitycontroller {
         activityservice.deregister(actid);
         
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","撤销报名成功！");
         return result;
     }
@@ -220,8 +220,22 @@ public class activitycontroller {
         activityservice.cancelactivity(actid);
         activityservice.cancelregister(actid);
         ObjectNode result = new ObjectMapper().createObjectNode();
-        result.put("code:", 1);
+        result.put("code", 1);
         result.put("msg","活动取消成功！");
+        return result;
+    }
+    
+    @GetMapping("/activitystatistics")
+    public Integer ActivityStatistics(){
+        Integer result = activityservice.activitystatistics();
+        return result;
+    }
+    
+    @GetMapping("/activityinprogress")
+    public Integer ActivityInProgress(){
+    	Date now = new Date();
+        String nowtime = df.format(now);
+        Integer result = activityservice.activityinprogress(nowtime);
         return result;
     }
 }

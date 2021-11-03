@@ -65,4 +65,10 @@ public class ActivityImpl implements Activityservice {
     public Activity queryactbyid(Integer actid) {
     	return activitymapper.queryactbyid(actid);
     }
+    public Integer activitystatistics() {
+    	return activitymapper.activitystatistics();
+    }
+    public Integer activityinprogress(String nowtime) {
+    	return activitymapper.activityinprogress(nowtime);
+    }
 }

@@ -34,4 +34,7 @@ public class UserImpl implements Userservice {
     public List<Integer> userregactid(int userid){ //查看用户参与的所有活动编号
     	return Usermapper.userregactid(userid);
     }
+    public Integer userstatistics() {
+    	return Usermapper.userstatistics();
+    }
 }

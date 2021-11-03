@@ -125,4 +125,14 @@
         from activity
         where id=#{actid,jdbcType=INTEGER}
     </select>
+    <select id="activitystatistics" resultType="java.lang.Integer">
+    	select count(*)
+    	from activity
+    </select>
+    <select id="activityinprogress" parameterType="java.lang.String" resultType="java.lang.Integer">
+    	select count(*)
+    	from activity
+    	where time_start <![CDATA[<=]]>#{nowtime,jdbcType=TIMESTAMP} and
+        time_end <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP}
+    </select>
 </mapper>
