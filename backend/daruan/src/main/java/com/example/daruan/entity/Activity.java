@@ -12,7 +12,7 @@ public class Activity {
     Integer organizer;
     Integer like;
     Integer hate;
-    String type;
+	String type;
     String time_start; //活动开始时间
     String time_end;  //活动结束时间
     String start; //开始报名时间
@@ -76,21 +76,21 @@ public class Activity {
     }
 
     public Integer getLike() {
-        return like;
-    }
+		return like;
+	}
 
-    public void setLike(Integer like) {
-        this.like = like;
-    }
+	public void setLike(Integer like) {
+		this.like = like;
+	}
 
-    public Integer getHate() {
-        return hate;
-    }
+	public Integer getHate() {
+		return hate;
+	}
 
-    public void setHate(Integer hate) {
-        this.hate = hate;
-    }
-
+	public void setHate(Integer hate) {
+		this.hate = hate;
+	}
+    
     public String getType() {
         return type;
     }

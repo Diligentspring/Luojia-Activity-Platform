@@ -24,4 +24,11 @@ public interface Activitymapper {
     Activity queryactbyid(Integer actid);//通过活动id查询活动
     Integer activitystatistics();
     Integer activityinprogress(String nowtime);
+    Integer querylike(Integer actid);
+    Integer queryhate(Integer actid);
+    Integer queryuserlikehate(Integer userid, Integer actid);
+    void likeactivity(Integer userid, Integer actid);
+    void hateactivity(Integer userid, Integer actid);
+    void cancellike(Integer userid, Integer actid);
+    void cancelhate(Integer userid, Integer actid);
 }

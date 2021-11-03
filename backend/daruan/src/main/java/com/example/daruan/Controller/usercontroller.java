@@ -5,6 +5,8 @@ import com.example.daruan.Services.Impl.UserImpl;
 import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.User;
+import com.example.daruan.entity.Useractivity;
+import com.example.daruan.entity.Like;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

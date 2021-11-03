@@ -5,6 +5,7 @@ import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.User;
 import com.example.daruan.entity.Useractivity;
+import com.example.daruan.entity.Like;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -49,6 +50,14 @@ public class activitycontroller {
         } catch (ParseException e) {
         }
         for(Activity activity:activitylist){
+        	Integer actid = activity.getId();
+        	//System.err.println(actid);
+        	Integer like = activityservice.querylike(actid);
+        	Integer hate = activityservice.queryhate(actid);
+        	activity.setLike(like);
+        	activity.setHate(hate);
+//        	System.err.println("like");
+//        	System.err.println(activity.getLike());
             String start = activity.getStart();
             String deadline = activity.getDeadline();
             String time_start = activity.getTime_start();
@@ -120,6 +129,13 @@ public class activitycontroller {
             System.err.println(key);
             activitylist = activityservice.complete(nowtime);
         }
+        for(Activity activity:activitylist) {
+        	Integer actid = activity.getId();
+        	Integer like = activityservice.querylike(actid);
+        	Integer hate = activityservice.queryhate(actid);
+        	activity.setLike(like);
+        	activity.setHate(hate);
+        }
         result.put("data",activitylist);
         result.put("msg","活动查询完成！");
         result.put("code",1);
@@ -132,6 +148,13 @@ public class activitycontroller {
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = activityservice.queryactivity(title);
+        for(Activity activity:activitylist) {
+        	Integer actid = activity.getId();
+        	Integer like = activityservice.querylike(actid);
+        	Integer hate = activityservice.queryhate(actid);
+        	activity.setLike(like);
+        	activity.setHate(hate);
+        }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
         result.put("code",1);
@@ -236,6 +259,89 @@ public class activitycontroller {
     	Date now = new Date();
         String nowtime = df.format(now);
         Integer result = activityservice.activityinprogress(nowtime);
+        return result;
+    }
+    
+    @PostMapping("/likeactivity")
+    public JsonNode likeactivity(Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        Integer flag = activityservice.queryuserlikehate(userid, actid);
+        //System.err.println(flag);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        if(flag != 0) {
+	        result.put("code", 0);
+	        result.put("msg","点赞失败！");
+        }
+        else {
+        	activityservice.likeactivity(userid, actid);
+	        result.put("code", 1);
+	        result.put("msg","点赞成功！");
+        }
+        return result;
+    }
+    
+    @PostMapping("/hateactivity")
+    public JsonNode hateactivity(Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        Integer flag = activityservice.queryuserlikehate(userid, actid);
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        if(flag != 0) {
+	        result.put("code", 0);
+	        result.put("msg","点踩失败！");
+        }
+        else {
+        	activityservice.hateactivity(userid, actid);
+	        result.put("code", 1);
+	        result.put("msg","点踩成功！");
+        }
+        return result;
+    }
+    
+    @PostMapping("/cancellike")
+    public JsonNode cancellike(Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        activityservice.cancellike(userid, actid);
+	    result.put("code", 1);
+	    result.put("msg","取消成功！");
+        return result;
+    }
+    
+    @PostMapping("/cancelhate")
+    public JsonNode cancelhate(Integer actid, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        activityservice.cancelhate(userid, actid);
+	    result.put("code", 1);
+	    result.put("msg","取消成功！");
         return result;
     }
 }

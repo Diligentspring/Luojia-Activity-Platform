@@ -71,4 +71,25 @@ public class ActivityImpl implements Activityservice {
     public Integer activityinprogress(String nowtime) {
     	return activitymapper.activityinprogress(nowtime);
     }
+    public Integer querylike(Integer actid) {
+    	return activitymapper.querylike(actid);
+    }
+    public Integer queryhate(Integer actid) {
+    	return activitymapper.queryhate(actid);
+    }
+    public Integer queryuserlikehate(Integer userid, Integer actid) {
+    	return activitymapper.queryuserlikehate(userid, actid);
+    }
+    public void likeactivity(Integer userid, Integer actid) {
+    	activitymapper.likeactivity(userid, actid);
+    }
+    public void hateactivity(Integer userid, Integer actid) {
+    	activitymapper.hateactivity(userid, actid);
+    }
+    public void cancellike(Integer userid, Integer actid) {
+    	activitymapper.cancellike(userid, actid);
+    }
+    public void cancelhate(Integer userid, Integer actid) {
+    	activitymapper.cancelhate(userid, actid);
+    }
 }

@@ -9,8 +9,6 @@
         <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
         <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
         <result column="organizer" jdbcType="INTEGER" property="organizer"/>
-        <result column="like" jdbcType="INTEGER" property="like"/>
-        <result column="hate" jdbcType="INTEGER" property="hate"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="time_start" jdbcType="TIMESTAMP" property="time_start"/>
         <result column="time_end" jdbcType="TIMESTAMP" property="time_end"/>
@@ -18,7 +16,7 @@
         <result column="already_register" jdbcType="INTEGER" property="already_register"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start, already_register
+        `id`, title, site, number_people, deadline, introduction, organizer, `type`, time_start, time_end, start, already_register
     </sql>
     <select id="getallactivity" resultMap="BaseResultMap">
         select
@@ -135,4 +133,42 @@
     	where time_start <![CDATA[<=]]>#{nowtime,jdbcType=TIMESTAMP} and
         time_end <![CDATA[>=]]>#{nowtime,jdbcType=TIMESTAMP}
     </select>
+    <select id="querylike" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    	select count(*)
+    	from `like`
+    	where actid = #{actid, jdbcType=INTEGER}
+    	AND status = 0
+    </select>
+    <select id="queryhate" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    	select count(*)
+    	from `like`
+    	where actid = #{actid, jdbcType=INTEGER}
+    	AND status = 1
+    </select>
+    <select id="queryuserlikehate" resultType="java.lang.Integer">
+    	select count(*)
+    	from `like`
+    	where userid = #{userid, jdbcType=INTEGER}
+    	AND actid = #{actid, jdbcType=INTEGER}
+    </select>
+    <insert id="likeactivity" keyColumn="id"  useGeneratedKeys="true">
+        insert into `like` set
+        userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}, status=0
+    </insert>
+    <insert id="hateactivity" keyColumn="id"  useGeneratedKeys="true">
+        insert into `like` set
+        userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}, status=1
+    </insert>
+    <delete id="cancellike">
+        delete from `like`
+        where userid=#{userid, jdbcType=INTEGER}
+        AND actid=#{actid, jdbcType=INTEGER}
+        AND status=0
+    </delete>
+    <delete id="cancelhate">
+        delete from `like`
+        where userid=#{userid, jdbcType=INTEGER}
+        AND actid=#{actid, jdbcType=INTEGER}
+        AND status=1
+    </delete>
 </mapper>
