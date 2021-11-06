@@ -4,8 +4,15 @@ import { Button, Card, message, Typography } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
-import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
-import { activityApply, cancelApplication } from '@/services/playground';
+import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
+import {
+  activityApply,
+  cancelApplication,
+  cancelhate,
+  cancelLike,
+  hateThisActivity,
+  likeThisActivity,
+} from '@/services/playground';
 
 const { Title } = Typography;
 
@@ -23,8 +30,10 @@ export interface ActivityProps {
   already_register?: number; // 已有人数
   start?: string; // 报名开始时间
   deadline?: string; // 报名截止时间
-  likes?: number; // 点赞数
-  dislikes?: number; // 点踩数
+  like?: number; // 点赞数
+  like_this?: boolean; // 当前用户是否已对当前活动点赞
+  hate?: number; // 点踩数
+  hate_this?: boolean; // 当前用户是否已对当前活动点踩
   participated?: boolean; // 是否已参加
 }
 
@@ -42,8 +51,10 @@ const Activity = (props: ActivityProps) => {
     already_register,
     start,
     deadline,
-    likes,
-    dislikes,
+    like,
+    like_this,
+    hate,
+    hate_this,
     participated,
   } = props;
 
@@ -74,13 +85,37 @@ const Activity = (props: ActivityProps) => {
             <div>{organizer}</div>
             <div>{time_start}</div>
             <div className={styles.activity_like_div}>
-              <div>
-                <LikeOutlined />
-                {likes}
+              <div
+                style={{ cursor: 'pointer' }}
+                onClick={async () => {
+                  const res = await (like_this
+                    ? cancelLike({ activity_ID: id })
+                    : likeThisActivity({ activity_ID: id }));
+                  if (res?.code === 1) {
+                    message.success(`${like_this ? '已取消赞!' : '已点赞!'}`);
+                  } else {
+                    message.error('操作失败, 请重试!');
+                  }
+                }}
+              >
+                {like_this ? <LikeFilled /> : <LikeOutlined />}
+                {like}
               </div>
-              <div style={{ marginLeft: 2 }}>
-                <DislikeOutlined />
-                {dislikes}
+              <div
+                style={{ marginLeft: 10, cursor: 'pointer' }}
+                onClick={async () => {
+                  const res = await (hate_this
+                    ? cancelhate({ activity_ID: id })
+                    : hateThisActivity({ activity_ID: id }));
+                  if (res?.code === 1) {
+                    message.success(`${hate_this ? '已取消踩!' : '已踩!'}`);
+                  } else {
+                    message.error('操作失败, 请重试!');
+                  }
+                }}
+              >
+                {hate_this ? <DislikeFilled /> : <DislikeOutlined />}
+                {hate}
               </div>
             </div>
             <div>
