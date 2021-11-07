@@ -8,9 +8,10 @@ import PageContainer from '@/components/PageContainer';
 import Activity, { ActivityProps } from '@/components/Activity';
 import CenterCard from './components/CenterCard';
 import InfoEditCard from './components/InfoEditCard';
+import { useModel } from 'umi';
 
 const Center = () => {
-  const [shared, setShared] = useStore('Shared');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
@@ -20,22 +21,22 @@ const Center = () => {
           <img alt="backPic" src={background} style={{ width: '100%', height: 300 }} />
           <div className={styles.headerContent}>
             <Avatar
-              src={shared?.user?.avatar}
+              src={initialState?.currentUser?.avatar}
               shape="square"
               size="large"
               className={styles.avatar}
             ></Avatar>
             <div className={styles.briefInfoDiv}>
-              <div className={styles.userName}>{shared?.user?.username}</div>
+              <div className={styles.userName}>{initialState?.currentUser?.username}</div>
               <div className={styles.otherInfo}>
                 <div>
-                  <MailOutlined /> {shared?.user?.email}
+                  <MailOutlined /> {initialState?.currentUser?.email}
                 </div>
                 <div>
-                  <MobileOutlined /> {shared?.user?.phone}
+                  <MobileOutlined /> {initialState?.currentUser?.phone}
                 </div>
                 <div>
-                  <CalendarOutlined /> {shared?.user?.birth_date || '2000-01-01'}
+                  <CalendarOutlined /> {initialState?.currentUser?.birth_date || '2000-01-01'}
                 </div>
               </div>
             </div>

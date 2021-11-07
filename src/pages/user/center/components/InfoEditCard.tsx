@@ -3,6 +3,7 @@ import { useStore } from '@/models';
 import { Button, Col, DatePicker, Divider, Input, message, Row } from 'antd';
 import { UpdateUserInfo } from '@/services/user';
 import moment from 'moment';
+import { useModel } from 'umi';
 
 interface ItemProps {
   id: string;
@@ -110,23 +111,24 @@ const InfoItem = (props: ItemProps) => {
 };
 
 const InfoEditCard = () => {
-  const [shared, setShared] = useStore('Shared');
+  const { initialState, setInitialState } = useModel('@@initialState');
+
   const Info = [
-    { key: 'name', label: '用户名', value: shared?.user?.username },
-    { key: 'email', label: '邮箱', value: shared?.user?.email },
-    { key: 'phone', label: '联系电话', value: shared?.user?.phone },
-    { key: 'password', label: '密码', value: shared?.user?.password },
-    { key: 'birth_date', label: '出生日期', value: shared?.user?.birth_date },
-    { key: 'sex', label: '性别', value: shared?.user?.sex },
-    { key: 'major', label: '专业', value: shared?.user?.major },
-    { key: 'school', label: '学院', value: shared?.user?.school },
-    { key: 'grade', label: '年级', value: shared?.user?.grade },
+    { key: 'username', label: '用户名', value: initialState?.currentUser?.username },
+    { key: 'email', label: '邮箱', value: initialState?.currentUser?.email },
+    { key: 'phone', label: '联系电话', value: initialState?.currentUser?.phone },
+    { key: 'password', label: '密码', value: initialState?.currentUser?.password },
+    { key: 'birth_date', label: '出生日期', value: initialState?.currentUser?.birth_date },
+    { key: 'sex', label: '性别', value: initialState?.currentUser?.sex },
+    { key: 'major', label: '专业', value: initialState?.currentUser?.major },
+    { key: 'school', label: '学院', value: initialState?.currentUser?.school },
+    { key: 'grade', label: '年级', value: initialState?.currentUser?.grade },
   ];
+
   return (
     <div>
-      {
-      Info.map((item: any) => {
-        console.log(item)
+      {Info.map((item: any) => {
+        console.log(item);
         return <InfoItem id={item.key} {...item} />;
       })}
     </div>

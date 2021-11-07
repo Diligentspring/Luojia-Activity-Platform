@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   const [type, setType] = useState<TabType>(TabType.LOGIN);
   // const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-  const [shared, { setShared }] = useStore('Shared');
+  // const [shared, { setShared }] = useStore('Shared');
 
   const fetchUserInfo = async () => {
     const res = await fetchCurrentUser();
@@ -41,7 +41,7 @@ const Login: React.FC = () => {
       setInitialState((s: any) => {
         return { ...s, currentUser: res.data };
       });
-      setShared({ ...shared, user: res.data });
+      // setShared({ ...shared, user: res.data });
     } else {
       setUserLoginState({ status: 'error', type: 'account' });
     }

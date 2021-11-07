@@ -4,20 +4,16 @@ import { publishApplication } from '@/services/publish';
 import Activity, { ActivityProps } from '@/components/Activity';
 import React, { useState } from 'react';
 
-
 const Publish = () => {
-  const [shared, setShared] = useState<ActivityProps[]>([]);
   const [formValue, setFormValue] = useState<ActivityProps>();
 
-  const [myForm] = Form.useForm<ActivityProps>()
-
-
+  const [myForm] = Form.useForm<ActivityProps>();
 
   return (
     <PageContainer>
       <Card style={{ padding: 20, width: '80%' }}>
         <Form form={myForm}>
-          <Form.Item name="title" label="活动名称" >
+          <Form.Item name="title" label="活动名称">
             <Input></Input>
           </Form.Item>
           <Row gutter={64}>
@@ -64,16 +60,18 @@ const Publish = () => {
             type="primary"
             style={{ marginLeft: 10, marginRight: 10 }}
             onClick={async () => {
-              const formValue = myForm.getFieldsValue(true)
+              const formValue = myForm.getFieldsValue(true);
               const res = await publishApplication({ data: { ...formValue } });
-              console.log(res)
+              console.log(res);
               if (res.code === 1) {
                 message.success('提交成功!');
               } else {
                 message.error('提交失败, 请重试!');
               }
             }}
-          >提交</Button>
+          >
+            提交
+          </Button>
         </div>
       </Card>
     </PageContainer>

@@ -9,7 +9,7 @@ declare namespace API {
     avatar?: string;
     email?: string;
     phone?: string;
-    birthdate?: string;
+    birth_date?: string;
     sex?: string;
     major?: string;
     school?: string;
