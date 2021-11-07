@@ -1,3 +1,4 @@
+import { ActivityProps } from '@/components/Activity';
 import responseHandler from '@/utils/response-handler';
 import request from 'umi-request';
 import { BasicResponseType, LoginAndRegisterRequestParams, UserInfoType } from '../typings';
@@ -60,6 +61,30 @@ export async function UpdateUserInfo(body?: Partial<UserInfoType>) {
     data: body,
   })
     .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
+
+// 获取我发布的活动
+export async function getActivitiesPublishedByMyself() {
+  return request('/api/user/userpubactivity', {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((res: BasicResponseType<ActivityProps[]>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
+
+// 获取我参与的活动
+export async function getActivitiesParticipated() {
+  return request('/api/user/userregactivity', {
+    method: 'GET',
+    credentials: 'include',
+  })
+    .then((res: BasicResponseType<ActivityProps[]>) => {
       return responseHandler(res);
     })
     .catch((err) => console.log(err));
