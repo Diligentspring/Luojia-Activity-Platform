@@ -46,7 +46,7 @@ const CenterCard = () => {
       <div style={{ width: '100%' }}>
         {dataSource && dataSource.length > 0 ? (
           dataSource?.map((item: ActivityProps, id: number) => {
-            return <Activity key={id} {...item}></Activity>;
+            return <Activity key={id} detail={item}></Activity>;
           })
         ) : (
           <Empty description="暂无活动">

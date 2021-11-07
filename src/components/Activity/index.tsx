@@ -1,6 +1,6 @@
 import react from 'react';
 import { StatusType } from './status';
-import { Button, Card, message, Typography } from 'antd';
+import { Button, Card, message, Typography, Form, FormInstance } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
@@ -17,7 +17,7 @@ import {
 const { Title } = Typography;
 
 export interface ActivityProps {
-  id: string;
+  id: string; // 活动id
   title?: string; // 活动标题
   type?: string; // 活动种类
   introduction?: string; // 活动描述
@@ -37,7 +37,15 @@ export interface ActivityProps {
   participated?: boolean; // 是否已参加
 }
 
-const Activity = (props: ActivityProps) => {
+interface ActivityItemProps {
+  key: number;
+  detail: ActivityProps;
+  setDrawerVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+  ActivityDetailFormInstance?: FormInstance<ActivityProps>;
+}
+
+const Activity = (props: ActivityItemProps) => {
+  const { detail, setDrawerVisible, ActivityDetailFormInstance: form } = props;
   const {
     id,
     title,
@@ -56,7 +64,7 @@ const Activity = (props: ActivityProps) => {
     hate,
     hate_this,
     participated,
-  } = props;
+  } = detail;
 
   return (
     <div className={styles.activity_main}>
@@ -82,6 +90,17 @@ const Activity = (props: ActivityProps) => {
             <div style={{ color: 'gray' }}>{introduction}</div>
           </div>
           <div className={styles.activity_right_div}>
+            <div>
+              <Button
+                type="link"
+                onClick={() => {
+                  form && form.setFieldsValue({ ...detail });
+                  setDrawerVisible && setDrawerVisible(true);
+                }}
+              >
+                查看详情
+              </Button>
+            </div>
             <div>{organizer}</div>
             <div>{time_start}</div>
             <div className={styles.activity_like_div}>

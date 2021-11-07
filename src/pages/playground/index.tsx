@@ -1,16 +1,25 @@
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
 import PageContainer from '../../components/PageContainer';
-import { Button, Card, Tabs, Tag, Typography } from 'antd';
+import { Button, Card, Tabs, Tag, Typography, Form } from 'antd';
 import React, { useState, useEffect } from 'react';
 
 import styles from './index.less';
 import Activity, { ActivityProps } from '@/components/Activity';
 import { getAllActivities, getFilteredActivities } from '@/services/playground';
+import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
 
 const Playground = () => {
+  // List
   const [dataSource, setDataSource] = useState<ActivityProps[]>([]);
 
+  // Tab
   const [activeKey, setActiveKey] = useState('0');
+
+  // Drawer
+  const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
+
+  // Form
+  const [ActivityDetailFormInstance] = Form.useForm<ActivityProps>();
 
   const fetchAllActivities = async () => {
     const res = await getAllActivities();
@@ -27,7 +36,15 @@ const Playground = () => {
         <div className={styles.header}>
           <Button type="primary">快速创建</Button>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-start',
+            padding: '10px 20px 0px 20px',
+            marginBottom: 10,
+            background: 'white',
+          }}
+        >
           <Tabs
             defaultActiveKey={activeKey}
             onChange={async (key) => {
@@ -49,10 +66,22 @@ const Playground = () => {
         </div>
         <div className={styles.activities_list}>
           {dataSource.map((item: ActivityProps, id: number) => {
-            return <Activity key={id} {...item}></Activity>;
+            return (
+              <Activity
+                key={id}
+                detail={item}
+                setDrawerVisible={setDrawerVisible}
+                ActivityDetailFormInstance={ActivityDetailFormInstance}
+              ></Activity>
+            );
           })}
         </div>
       </div>
+      <ActivityDetailDrawer
+        visible={drawerVisible}
+        setVisible={setDrawerVisible}
+        ActivityDetailFormInstance={ActivityDetailFormInstance}
+      />
     </PageContainer>
   );
 };
