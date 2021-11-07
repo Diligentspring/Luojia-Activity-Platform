@@ -1,9 +1,9 @@
 import react, { useState } from 'react';
 import { useStore } from '@/models';
 import { Button, Col, DatePicker, Divider, Input, message, Row } from 'antd';
-import { UpdateUserInfo } from '@/services/user';
+import { fetchCurrentUser, UpdateUserInfo } from '@/services/user';
 import moment from 'moment';
-import { useModel } from 'umi';
+import { useModel, history } from 'umi';
 
 interface ItemProps {
   id: string;
@@ -16,6 +16,9 @@ const InfoItem = (props: ItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [value, setValue] = useState(props.value);
 
+  const { initialState, setInitialState } = useModel('@@initialState');
+
+  console.log(initialState);
   const { id, label } = props;
 
   return (
@@ -58,12 +61,12 @@ const InfoItem = (props: ItemProps) => {
                 case 'birth_date':
                   return (
                     <DatePicker
-                      defaultValue={moment(value)}
-                      value={moment(value)}
+                      defaultValue={moment(value || '2000-01-01')}
+                      value={moment(value || '2000-01-01')}
                       onChange={(date, dateString) => {
                         setValue(dateString);
                       }}
-                    ></DatePicker>
+                    />
                   );
                 default:
                   return (
@@ -84,9 +87,11 @@ const InfoItem = (props: ItemProps) => {
               style={{ marginLeft: 10, marginRight: 10 }}
               onClick={async () => {
                 const res = await UpdateUserInfo({ [id]: value });
-                if (res.code === 1) {
+                if (res?.code === 1) {
                   message.success('修改成功!');
                   setIsEditing(false);
+                  const updatedInfo = await fetchCurrentUser();
+                  setInitialState({ ...initialState, currentUser: updatedInfo?.data });
                 } else {
                   message.error('修改失败, 请重试!');
                 }
@@ -128,7 +133,6 @@ const InfoEditCard = () => {
   return (
     <div>
       {Info.map((item: any) => {
-        console.log(item);
         return <InfoItem id={item.key} {...item} />;
       })}
     </div>
