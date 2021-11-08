@@ -1,6 +1,6 @@
 import PageContainer from '../../components/PageContainer';
-import { Button, Card, Tabs, Tag, Typography, Form } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { Button, Tabs, Form } from 'antd';
+import { useState, useEffect } from 'react';
 
 import styles from './index.less';
 import Activity, { ActivityProps } from '@/components/Activity';

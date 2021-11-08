@@ -1,16 +1,15 @@
-import react, { useState } from 'react';
-import { Avatar, Button, Card, Form, Tabs } from 'antd';
+import { useState } from 'react';
+import { Avatar, Button, Card } from 'antd';
 import background from '../../../../public/background.jpg';
 import styles from './index.less';
 import { CalendarOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
 import PageContainer from '@/components/PageContainer';
-import Activity, { ActivityProps } from '@/components/Activity';
 import CenterCard from './components/CenterCard';
 import InfoEditCard from './components/InfoEditCard';
 import { useModel } from 'umi';
 
 const Center = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (

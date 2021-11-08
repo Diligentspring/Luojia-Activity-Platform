@@ -1,6 +1,5 @@
-import react from 'react';
 import { StatusType } from './status';
-import { Button, Card, message, Typography, Form, FormInstance } from 'antd';
+import { Button, Card, message, Typography, FormInstance } from 'antd';
 import Status from './status';
 
 import styles from './index.less';

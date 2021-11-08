@@ -1,5 +1,4 @@
-import { Button, Drawer, Form, FormInstance } from 'antd';
-import react from 'react';
+import { Button, Drawer, FormInstance } from 'antd';
 import { ActivityProps } from '.';
 import ActivityDetailForm from './detailForm';
 

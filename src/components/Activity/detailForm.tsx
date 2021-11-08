@@ -1,5 +1,4 @@
-import { Col, DatePicker, Form, FormInstance, Input, InputNumber, Row } from 'antd';
-import react from 'react';
+import { Col, Form, FormInstance, Input, InputNumber, Row } from 'antd';
 import { ActivityProps } from '.';
 interface ActivityDetailFormProps {
   form: FormInstance<ActivityProps>;

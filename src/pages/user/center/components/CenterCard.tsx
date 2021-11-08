@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Empty, message, Tabs } from 'antd';
 import Activity, { ActivityProps } from '@/components/Activity';
 import { getActivitiesParticipated, getActivitiesPublishedByMyself } from '@/services/user';

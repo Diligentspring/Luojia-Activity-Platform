@@ -1,8 +1,8 @@
-import react, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Col, DatePicker, Divider, Input, message, Row } from 'antd';
 import { fetchCurrentUser, UpdateUserInfo } from '@/services/user';
 import moment from 'moment';
-import { useModel, history } from 'umi';
+import { useModel } from 'umi';
 
 interface ItemProps {
   id: string;
@@ -115,7 +115,7 @@ const InfoItem = (props: ItemProps) => {
 };
 
 const InfoEditCard = () => {
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
 
   const Info = [
     { key: 'username', label: '用户名', value: initialState?.currentUser?.username },
