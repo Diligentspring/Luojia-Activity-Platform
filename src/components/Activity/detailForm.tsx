@@ -1,5 +1,4 @@
 import { Col, DatePicker, Form, FormInstance, Input, InputNumber, Row } from 'antd';
-import moment from 'moment';
 import react from 'react';
 import { ActivityProps } from '.';
 interface ActivityDetailFormProps {

@@ -8,7 +8,6 @@ import { login, register } from '@/services/user';
 import styles from './index.less';
 import { LoginAndRegisterRequestParams } from '@/services/typings';
 import { fetchCurrentUser } from '../../../services/user';
-import { useStore } from '@/models';
 
 const LoginMessage: React.FC<{
   content: string;

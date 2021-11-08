@@ -1,6 +1,5 @@
 import react, { useState } from 'react';
 import { Avatar, Button, Card, Form, Tabs } from 'antd';
-import { useStore } from '@/models';
 import background from '../../../../public/background.jpg';
 import styles from './index.less';
 import { CalendarOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';

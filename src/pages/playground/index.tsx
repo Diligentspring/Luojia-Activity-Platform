@@ -1,4 +1,3 @@
-import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
 import PageContainer from '../../components/PageContainer';
 import { Button, Card, Tabs, Tag, Typography, Form } from 'antd';
 import React, { useState, useEffect } from 'react';
