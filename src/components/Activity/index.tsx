@@ -24,7 +24,7 @@ export interface ActivityProps {
   time_start?: string; // 活动创建时间
   time_end?: string; // 活动结束时间
   site?: string; // 活动地点
-  status?: StatusType; // 活动状态
+  state?: StatusType; // 活动状态
   number_people?: number; // 招募人数
   already_register?: number; // 已有人数
   start?: string; // 报名开始时间
@@ -53,7 +53,7 @@ const Activity = (props: ActivityItemProps) => {
     time_start,
     time_end,
     site,
-    status,
+    state,
     number_people,
     already_register,
     start,
@@ -82,7 +82,7 @@ const Activity = (props: ActivityItemProps) => {
                 {title}
               </Title>
               <div style={{ marginLeft: 10 }}>
-                <Status value={status} />
+                <Status value={state} />
               </div>
             </div>
 
