@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import PageContainer from '../components/PageContainer';
+import { ActsumApplication, usersumApplication, ActprogressApplication } from '@/services/Welcome';
 import { Card, Alert, Typography, Divider, Statistic, Row, Col } from 'antd';
 import { PieChartOutlined, UserOutlined, SlackOutlined } from '@ant-design/icons';
 
@@ -8,11 +9,30 @@ import styles from './Welcome.less';
 const { Title } = Typography;
 
 export default (): React.ReactNode => {
-  const [state, setState] = useState({
-    totalActivities: 1372,
-    runningActivities: 269,
-    totalUser: 7493,
-  });
+  const [actsum, setactsum] = useState('0')
+  const [usersum, setusersum] = useState('0')
+  const [actpro, setactpro] = useState('0')
+  
+  const fetchsumActivities = async () => {
+    const res = await ActsumApplication();
+    setactsum(String(res));
+  };
+
+  const fetchsumuser = async () => {
+    const res = await usersumApplication();
+    setusersum(String(res));
+  };
+
+  const fetchproActivities = async () => {
+    const res = await ActprogressApplication();
+    setactpro(String(res));
+  };
+
+  useEffect(() => {
+    fetchsumActivities();
+    fetchsumuser();
+    fetchproActivities();
+  }, []);
 
   return (
     <PageContainer>
@@ -31,7 +51,7 @@ export default (): React.ReactNode => {
             <Card>
               <Statistic
                 title="活动总数"
-                value={state.totalActivities}
+                value={actsum}
                 prefix={<SlackOutlined />}
               ></Statistic>
             </Card>
@@ -41,7 +61,7 @@ export default (): React.ReactNode => {
               <Statistic
                 title="用户总数"
                 prefix={<UserOutlined />}
-                value={state.totalUser}
+                value={usersum}
               ></Statistic>
             </Card>
           </Col>
@@ -50,8 +70,8 @@ export default (): React.ReactNode => {
               <Statistic
                 title="正在进行中"
                 prefix={<PieChartOutlined />}
-                value={state.runningActivities}
-                suffix={`/${state.totalActivities}`}
+                value={actpro}
+                suffix={`/${actsum}`}
               ></Statistic>
             </Card>
           </Col>
