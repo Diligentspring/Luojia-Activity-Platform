@@ -2,6 +2,7 @@ package com.example.daruan.Controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.ActivityImpl;
+import com.example.daruan.Services.Impl.UserImpl;
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.User;
 import com.example.daruan.entity.Useractivity;
@@ -34,11 +35,21 @@ import javax.servlet.http.HttpServletRequest;
 public class activitycontroller {
     @Autowired
     ActivityImpl activityservice;
+    @Autowired
+    UserImpl service;
 
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @GetMapping("/getall")
-    public JSONObject GetallActivity(){
+    public JSONObject GetallActivity(HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = activityservice.getallactivity();
@@ -56,6 +67,21 @@ public class activitycontroller {
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
         	activity.setHate(hate);
+        	
+        	if(activityservice.queryuserpar(userid, actid) == 1) {
+        		activity.setParticipated(1);
+        	}
+        	Integer organizerid = activity.getOrganizerid();
+        	if(activityservice.queryuserlike(userid, actid) == 1) {
+        		activity.setLike_this(1);
+        	}
+        	if(activityservice.queryuserhate(userid, actid) == 1) {
+        		activity.setHate_this(1);
+        	}
+        	User Organizer = service.getUserInfoByid(organizerid);
+        	String organizer = Organizer.getUsername();
+        	activity.setOrganizer(organizer);
+        	
 //        	System.err.println("like");
 //        	System.err.println(activity.getLike());
             String start = activity.getStart();
@@ -103,7 +129,15 @@ public class activitycontroller {
     }
 
     @GetMapping("/filter")
-    public JSONObject FilterActivity(int key){
+    public JSONObject FilterActivity(int key, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         Date now = new Date();
@@ -135,6 +169,19 @@ public class activitycontroller {
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
         	activity.setHate(hate);
+        	if(activityservice.queryuserpar(userid, actid) == 1) {
+        		activity.setParticipated(1);
+        	}
+        	Integer organizerid = activity.getOrganizerid();
+        	if(activityservice.queryuserlike(userid, actid) == 1) {
+        		activity.setLike_this(1);
+        	}
+        	if(activityservice.queryuserhate(userid, actid) == 1) {
+        		activity.setHate_this(1);
+        	}
+        	User Organizer = service.getUserInfoByid(organizerid);
+        	String organizer = Organizer.getUsername();
+        	activity.setOrganizer(organizer);
         }
         result.put("data",activitylist);
         result.put("msg","活动查询完成！");
@@ -144,7 +191,15 @@ public class activitycontroller {
     }
     
     @GetMapping("/query")
-    public JSONObject QueryActivity(String title){
+    public JSONObject QueryActivity(String title, HttpServletRequest request){
+    	Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                 userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = activityservice.queryactivity(title);
@@ -154,6 +209,19 @@ public class activitycontroller {
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
         	activity.setHate(hate);
+        	if(activityservice.queryuserpar(userid, actid) == 1) {
+        		activity.setParticipated(1);
+        	}
+        	Integer organizerid = activity.getOrganizerid();
+        	if(activityservice.queryuserlike(userid, actid) == 1) {
+        		activity.setLike_this(1);
+        	}
+        	if(activityservice.queryuserhate(userid, actid) == 1) {
+        		activity.setHate_this(1);
+        	}
+        	User Organizer = service.getUserInfoByid(organizerid);
+        	String organizer = Organizer.getUsername();
+        	activity.setOrganizer(organizer);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
@@ -171,7 +239,7 @@ public class activitycontroller {
                 break;
             }
         }
-        activity.setOrganizer(userid);
+        activity.setOrganizerid(userid);
         activity.setAlready_register(0);
         activityservice.newactivity(activity);
         ObjectNode result = new ObjectMapper().createObjectNode();
@@ -190,7 +258,7 @@ public class activitycontroller {
                 break;
             }
         }
-        activity.setOrganizer(userid);
+        activity.setOrganizerid(userid);
         activityservice.modactivity(activity);
         ObjectNode result = new ObjectMapper().createObjectNode();
         result.put("code", 1);

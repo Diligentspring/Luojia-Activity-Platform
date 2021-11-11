@@ -9,7 +9,7 @@ public class Activity {
     Integer number_people;
     String deadline; //结束报名时间
     String introduction;
-    Integer organizer;
+    Integer organizerid;
     Integer like;
     Integer hate;
 	String type;
@@ -18,8 +18,53 @@ public class Activity {
     String start; //开始报名时间
     Integer state;
     Integer already_register;
+    Integer participated = 0; //0表示不参与，1表示参与
+    String organizer;
+    Integer like_this = 0; //0表示不喜欢，1表示喜欢
+    Integer hate_this = 0; //0表示不讨厌，1表示讨厌
+    String icon;
 
-    public Integer getId() {
+    public String getOrganizer() {
+		return organizer;
+	}
+
+	public void setOrganizer(String organizer) {
+		this.organizer = organizer;
+	}
+
+	public Integer getLike_this() {
+		return like_this;
+	}
+
+	public void setLike_this(Integer like_this) {
+		this.like_this = like_this;
+	}
+
+	public Integer getHate_this() {
+		return hate_this;
+	}
+
+	public void setHate_this(Integer hate_this) {
+		this.hate_this = hate_this;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public Integer getParticipated() {
+		return participated;
+	}
+
+	public void setParticipated(Integer participated) {
+		this.participated = participated;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -67,12 +112,12 @@ public class Activity {
         this.introduction = introduction;
     }
 
-    public Integer getOrganizer() {
-        return organizer;
+    public Integer getOrganizerid() {
+        return organizerid;
     }
 
-    public void setOrganizer(Integer organizer) {
-        this.organizer = organizer;
+    public void setOrganizerid(Integer organizerid) {
+        this.organizerid = organizerid;
     }
 
     public Integer getLike() {

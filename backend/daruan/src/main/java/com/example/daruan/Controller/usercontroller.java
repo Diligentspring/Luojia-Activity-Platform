@@ -151,6 +151,22 @@ public class usercontroller {
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = service.userpubactivity(userid);
+        for (Activity activity : activitylist) {
+        	Integer actid = activity.getId();
+        	if(activityservice.queryuserpar(userid, actid) == 1) {
+        		activity.setParticipated(1);
+        	}
+        	Integer organizerid = activity.getOrganizerid();
+        	if(activityservice.queryuserlike(userid, actid) == 1) {
+        		activity.setLike_this(1);
+        	}
+        	if(activityservice.queryuserhate(userid, actid) == 1) {
+        		activity.setHate_this(1);
+        	}
+        	User Organizer = service.getUserInfoByid(organizerid);
+        	String organizer = Organizer.getUsername();
+        	activity.setOrganizer(organizer);
+        }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
         result.put("code",1);
@@ -175,6 +191,20 @@ public class usercontroller {
         	Activity activity = new Activity();
         	activity = activityservice.queryactbyid(actid);
         	activitylist.add(activity);
+        }
+        for (Activity activity : activitylist) {
+        	Integer actid = activity.getId();
+        	activity.setParticipated(1);
+        	Integer organizerid = activity.getOrganizerid();
+        	if(activityservice.queryuserlike(userid, actid) == 1) {
+        		activity.setLike_this(1);
+        	}
+        	if(activityservice.queryuserhate(userid, actid) == 1) {
+        		activity.setHate_this(1);
+        	}
+        	User Organizer = service.getUserInfoByid(organizerid);
+        	String organizer = Organizer.getUsername();
+        	activity.setOrganizer(organizer);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");

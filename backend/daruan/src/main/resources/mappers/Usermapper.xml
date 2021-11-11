@@ -22,7 +22,7 @@
         <result column="number_people" jdbcType="INTEGER" property="number_people"/>
         <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
         <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
-        <result column="organizer" jdbcType="INTEGER" property="organizer"/>
+        <result column="organizerid" jdbcType="INTEGER" property="organizerid"/>
         <result column="like" jdbcType="INTEGER" property="like"/>
         <result column="hate" jdbcType="INTEGER" property="hate"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
@@ -30,12 +30,13 @@
         <result column="time_end" jdbcType="TIMESTAMP" property="time_end"/>
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
         <result column="already_register" jdbcType="INTEGER" property="already_register"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
     </resultMap>
     <sql id="Base_Column_List">
         `id`, username, `password`, authority, sex, phone, major, email, birth_date, avatar, school, grade
     </sql>
     <sql id="Activity_Column_List">
-        `id`, title, site, number_people, deadline, introduction, organizer, `like`, hate, `type`, time_start, time_end, start, already_register
+        `id`, title, site, number_people, deadline, introduction, organizerid, `type`, time_start, time_end, start, already_register, icon
     </sql>
     <insert id="createuser" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.User" useGeneratedKeys="true">
         insert into user(username,`password`)
@@ -75,7 +76,7 @@
     	select
         <include refid="Activity_Column_List" />
         from activity
-        where organizer=#{userid,jdbcType=INTEGER}
+        where organizerid=#{userid,jdbcType=INTEGER}
     </select>
     <select id="userregactid" parameterType="java.lang.Integer" resultType = "java.lang.Integer">
     	select actid

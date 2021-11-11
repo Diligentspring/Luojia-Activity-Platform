@@ -26,6 +26,9 @@ public interface Activityservice {
     Integer querylike(Integer actid);
     Integer queryhate(Integer actid);
     Integer queryuserlikehate(Integer userid, Integer actid);
+    Integer queryuserlike(Integer userid, Integer actid);
+    Integer queryuserhate(Integer userid, Integer actid);
+    Integer queryuserpar(Integer userid, Integer actid);
     void likeactivity(Integer userid, Integer actid);
     void hateactivity(Integer userid, Integer actid);
     void cancellike(Integer userid, Integer actid);

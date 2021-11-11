@@ -80,6 +80,12 @@ public class ActivityImpl implements Activityservice {
     public Integer queryuserlikehate(Integer userid, Integer actid) {
     	return activitymapper.queryuserlikehate(userid, actid);
     }
+    public Integer queryuserlike(Integer userid, Integer actid) {
+    	return activitymapper.queryuserlike(userid, actid);
+    }
+    public Integer queryuserhate(Integer userid, Integer actid) {
+    	return activitymapper.queryuserhate(userid, actid);
+    }
     public void likeactivity(Integer userid, Integer actid) {
     	activitymapper.likeactivity(userid, actid);
     }
@@ -91,5 +97,8 @@ public class ActivityImpl implements Activityservice {
     }
     public void cancelhate(Integer userid, Integer actid) {
     	activitymapper.cancelhate(userid, actid);
+    }
+    public Integer queryuserpar(Integer userid, Integer actid) {
+    	return activitymapper.queryuserpar(userid, actid);
     }
 }

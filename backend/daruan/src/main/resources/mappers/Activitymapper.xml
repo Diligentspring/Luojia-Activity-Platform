@@ -8,15 +8,16 @@
         <result column="number_people" jdbcType="INTEGER" property="number_people"/>
         <result column="deadline" jdbcType="TIMESTAMP" property="deadline"/>
         <result column="introduction" jdbcType="VARCHAR" property="introduction"/>
-        <result column="organizer" jdbcType="INTEGER" property="organizer"/>
+        <result column="organizerid" jdbcType="INTEGER" property="organizerid"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="time_start" jdbcType="TIMESTAMP" property="time_start"/>
         <result column="time_end" jdbcType="TIMESTAMP" property="time_end"/>
         <result column="start" jdbcType="TIMESTAMP" property="start"/>
         <result column="already_register" jdbcType="INTEGER" property="already_register"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
     </resultMap>
     <sql id="Base_Column_List">
-        `id`, title, site, number_people, deadline, introduction, organizer, `type`, time_start, time_end, start, already_register
+        `id`, title, site, number_people, deadline, introduction, organizerid, `type`, time_start, time_end, start, already_register, icon
     </sql>
     <select id="getallactivity" resultMap="BaseResultMap">
         select
@@ -69,10 +70,10 @@
     </select>
     <insert id="newactivity" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Activity"
      useGeneratedKeys="true">
-        insert into activity(title, site, number_people, deadline, introduction, organizer, 
+        insert into activity(title, site, number_people, deadline, introduction, organizerid, 
          time_start, time_end, start, already_register)
         values(#{title, jdbcType=VARCHAR}, #{site, jdbcType=VARCHAR}, #{number_people, jdbcType=INTEGER}, 
-        #{deadline, jdbcType=TIMESTAMP}, #{introduction, jdbcType=VARCHAR}, #{organizer, jdbcType=INTEGER},
+        #{deadline, jdbcType=TIMESTAMP}, #{introduction, jdbcType=VARCHAR}, #{organizerid, jdbcType=INTEGER},
         #{time_start, jdbcType=TIMESTAMP}, #{time_end, jdbcType=TIMESTAMP}, #{start, jdbcType=TIMESTAMP},
         #{already_register, jdbcType=INTEGER})
     </insert>
@@ -88,7 +89,7 @@
 		<if test="time_end != null"> time_end = #{time_end, jdbcType=TIMESTAMP},</if>
 		<if test="start != null"> start = #{start, jdbcType=TIMESTAMP},</if>        
         </set>
-        where organizer = #{organizer, jdbcType=INTEGER}
+        where organizerid = #{organizerid, jdbcType=INTEGER}
         	AND id = #{id, jdbcType=INTEGER}
     </update>
     <insert id="interactivity" keyColumn="id"  useGeneratedKeys="true">
@@ -151,6 +152,20 @@
     	where userid = #{userid, jdbcType=INTEGER}
     	AND actid = #{actid, jdbcType=INTEGER}
     </select>
+    <select id="queryuserlike" resultType="java.lang.Integer">
+    	select count(*)
+    	from `like`
+    	where userid = #{userid, jdbcType=INTEGER}
+    	AND actid = #{actid, jdbcType=INTEGER}
+    	AND status = 0
+    </select>
+    <select id="queryuserhate" resultType="java.lang.Integer">
+    	select count(*)
+    	from `like`
+    	where userid = #{userid, jdbcType=INTEGER}
+    	AND actid = #{actid, jdbcType=INTEGER}
+    	AND status = 1
+    </select>
     <insert id="likeactivity" keyColumn="id"  useGeneratedKeys="true">
         insert into `like` set
         userid=#{userid, jdbcType=INTEGER}, actid=#{actid, jdbcType=INTEGER}, status=0
@@ -171,4 +186,10 @@
         AND actid=#{actid, jdbcType=INTEGER}
         AND status=1
     </delete>
+    <select id="queryuserpar" resultType="java.lang.Integer">
+    	select count(*)
+    	from useractivity
+    	where userid = #{userid, jdbcType=INTEGER}
+    	AND actid = #{actid, jdbcType=INTEGER}
+    </select>
 </mapper>
