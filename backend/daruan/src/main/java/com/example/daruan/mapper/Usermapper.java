@@ -12,4 +12,5 @@ public interface Usermapper {
     List<Activity> userpubactivity(int userid);
     List<Integer> userregactid(int userid); //查看用户参与的所有活动编号
     Integer userstatistics();
+    void updateavatar(int id,String avatar);
 }

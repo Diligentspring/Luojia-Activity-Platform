@@ -13,4 +13,5 @@ public interface Userservice {
     List<Activity> userpubactivity(int userid); //查看用户发布的所有活动
     List<Integer> userregactid(int userid); //查看用户参与的所有活动编号
     Integer userstatistics();
+    void updateavatar(int id,String avatar);
 }
