@@ -26,6 +26,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(originPatterns="*",methods= {RequestMethod.GET, RequestMethod.POST})
 public class usercontroller {
     @Autowired
     UserImpl service;
@@ -34,7 +35,9 @@ public class usercontroller {
     @PostMapping("/register")
     public JsonNode newuser(@RequestBody User user){
         ObjectNode result = new ObjectMapper().createObjectNode();
-        String existname = service.getUserInfoByAccount(user.getUsername()).getUsername();
+        //System.err.println(user.getUsername());
+        User existname = service.getUserInfoByAccount(user.getUsername());
+        //System.err.println(user.getUsername());
         if(existname!=null){
             result.put("code",0);
             result.put("msg","用户名存在！");
@@ -79,7 +82,8 @@ public class usercontroller {
         // 设置cookie的持久化时间，30天
         cookie_userid.setMaxAge(30 * 24 * 60 * 60);
         // 设置为当前项目下都携带这个cookie
-        cookie_userid.setPath(request.getContextPath());
+
+        cookie_userid.setPath("/");
         // 向客户端发送cookie
         response.addCookie(cookie_userid);
         res.put("code", 1);
@@ -96,7 +100,7 @@ public class usercontroller {
         // 设置cookie的持久化时间，0
         cookie_userid.setMaxAge(0);
         // 设置为当前项目下都携带这个cookie
-        cookie_userid.setPath(request.getContextPath());
+        cookie_userid.setPath("/");
         // 向客户端发送cookie
         response.addCookie(cookie_userid);
         return "login";
@@ -114,7 +118,7 @@ public class usercontroller {
             }
         }
         User userinfo = service.getUserInfoByid(userid);
-        res.put("userinfo",userinfo);
+        res.put("data",userinfo);
         res.put("code",1);
         res.put("msg","获取成功");
         return res;

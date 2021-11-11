@@ -169,6 +169,7 @@ public class activitycontroller {
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
         	activity.setHate(hate);
+        	activity.setState(key);
         	if(activityservice.queryuserpar(userid, actid) == 1) {
         		activity.setParticipated(1);
         	}
