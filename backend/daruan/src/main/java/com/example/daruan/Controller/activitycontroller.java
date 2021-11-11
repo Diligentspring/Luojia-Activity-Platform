@@ -135,6 +135,7 @@ public class activitycontroller {
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
         	activity.setHate(hate);
+        	activity.setState(key);
         }
         result.put("data",activitylist);
         result.put("msg","活动查询完成！");
