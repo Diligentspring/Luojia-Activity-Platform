@@ -54,6 +54,7 @@
     "@ant-design/pro-table": "^2.30.8",
     "@umijs/route-utils": "^1.0.36",
     "antd": "^4.14.0",
+    "antd-img-crop": "^3.16.0",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "moment": "^2.25.3",
@@ -63,7 +64,7 @@
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.0.4",
     "react-model": "^4.1.4",
-    "umi": "^3.5.0",
+    "umi": "^3.5.20",
     "umi-serve": "^1.9.10"
   },
   "devDependencies": {
