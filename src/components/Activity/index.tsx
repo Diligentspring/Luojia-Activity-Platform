@@ -83,7 +83,7 @@ const Activity = (props: ActivityItemProps) => {
                 level={2}
                 style={{ marginBottom: 0, cursor: 'pointer' }}
                 onClick={() => {
-                  history.push('/comments', { ActivityId: detail.id });
+                  history.push({ pathname: '/comments', query: { ActivityId: detail.id } });
                 }}
               >
                 {title}
