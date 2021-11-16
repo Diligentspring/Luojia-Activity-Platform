@@ -12,6 +12,7 @@ import {
   hateThisActivity,
   likeThisActivity,
 } from '@/services/playground';
+import { history } from '@/.umi/core/history';
 
 const { Title } = Typography;
 
@@ -78,7 +79,13 @@ const Activity = (props: ActivityItemProps) => {
                 marginBottom: 10,
               }}
             >
-              <Title level={2} style={{ marginBottom: 0 }}>
+              <Title
+                level={2}
+                style={{ marginBottom: 0, cursor: 'pointer' }}
+                onClick={() => {
+                  history.push('/comments', { ActivityId: detail.id });
+                }}
+              >
                 {title}
               </Title>
               <div style={{ marginLeft: 10 }}>

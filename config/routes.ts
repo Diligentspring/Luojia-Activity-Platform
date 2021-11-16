@@ -57,6 +57,10 @@
     redirect: '/welcome',
   },
   {
+    path: '/comments',
+    component: './comments',
+  },
+  {
     component: './404',
   },
 ];
