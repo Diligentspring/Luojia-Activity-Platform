@@ -1,5 +1,5 @@
 import PageContainer from '../../components/PageContainer';
-import { Button, Tabs, Form } from 'antd';
+import { Button, Tabs, Form, Empty, Card } from 'antd';
 import { useState, useEffect } from 'react';
 
 import styles from './index.less';
@@ -73,19 +73,29 @@ const Playground = () => {
           </Tabs>
         </div>
         <div className={styles.activities_list}>
-          {dataSource.map((item: ActivityProps, id: number) => {
-            return (
-              <Activity
-                key={id}
-                detail={item}
-                setDrawerVisible={setDrawerVisible}
-                ActivityDetailFormInstance={ActivityDetailFormInstance}
-                refreshList={() => {
-                  setRefresh(true);
-                }}
-              ></Activity>
-            );
-          })}
+          {dataSource.length > 0 ? (
+            dataSource.map((item: ActivityProps, id: number) => {
+              return (
+                <Activity
+                  key={id}
+                  detail={item}
+                  setDrawerVisible={setDrawerVisible}
+                  ActivityDetailFormInstance={ActivityDetailFormInstance}
+                  refreshList={() => {
+                    setRefresh(true);
+                  }}
+                ></Activity>
+              );
+            })
+          ) : (
+            <Card>
+              <Empty description="暂无活动">
+                <Button type="primary" onClick={() => {}}>
+                  点击发布
+                </Button>
+              </Empty>
+            </Card>
+          )}
         </div>
       </div>
       <ActivityDetailDrawer

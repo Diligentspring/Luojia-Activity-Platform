@@ -147,34 +147,38 @@ const Activity = (props: ActivityItemProps) => {
               </div>
             </div>
             <div>
-              {!participated ? (
-                <Button
-                  onClick={async () => {
-                    const res = await activityApply({ activity_ID: id });
-                    if (res?.code === 1) {
-                      message.success('报名成功!');
-                      refreshList && refreshList();
-                    } else {
-                      message.error('报名失败, 请重试!');
-                    }
-                  }}
-                >
-                  我要参加
-                </Button>
+              {state === StatusType.APPLYING ? (
+                !participated ? (
+                  <Button
+                    onClick={async () => {
+                      const res = await activityApply({ activity_ID: id });
+                      if (res?.code === 1) {
+                        message.success('报名成功!');
+                        refreshList && refreshList();
+                      } else {
+                        message.error('报名失败, 请重试!');
+                      }
+                    }}
+                  >
+                    我要参加
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={async () => {
+                      const res = await cancelApplication({ activity_ID: id });
+                      if (res?.code === 1) {
+                        message.success('取消报名成功!');
+                        refreshList && refreshList();
+                      } else {
+                        message.error('取消报名失败, 请重试!');
+                      }
+                    }}
+                  >
+                    取消报名
+                  </Button>
+                )
               ) : (
-                <Button
-                  onClick={async () => {
-                    const res = await cancelApplication({ activity_ID: id });
-                    if (res?.code === 1) {
-                      message.success('取消报名成功!');
-                      refreshList && refreshList();
-                    } else {
-                      message.error('取消报名失败, 请重试!');
-                    }
-                  }}
-                >
-                  取消报名
-                </Button>
+                ''
               )}
             </div>
           </div>
