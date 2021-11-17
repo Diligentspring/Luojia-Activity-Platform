@@ -20,15 +20,24 @@ const Playground = () => {
   // Form
   const [ActivityDetailFormInstance] = Form.useForm<ActivityProps>();
 
+  const [refresh, setRefresh] = useState<boolean>(false);
+
   const fetchAllActivities = async () => {
+    setRefresh(true);
     const res = await getAllActivities();
     setDataSource(res.data);
+    setRefresh(false);
   };
 
   useEffect(() => {
     fetchAllActivities();
   }, []);
 
+  useEffect(() => {
+    if (refresh) {
+      fetchAllActivities();
+    }
+  }, [refresh]);
   return (
     <PageContainer>
       <div className={styles.content}>
@@ -71,6 +80,9 @@ const Playground = () => {
                 detail={item}
                 setDrawerVisible={setDrawerVisible}
                 ActivityDetailFormInstance={ActivityDetailFormInstance}
+                refreshList={() => {
+                  setRefresh(true);
+                }}
               ></Activity>
             );
           })}

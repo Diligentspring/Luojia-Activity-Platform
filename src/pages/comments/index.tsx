@@ -17,7 +17,12 @@ import PageContainer from '../../components/PageContainer';
 
 import qs from 'qs';
 import styles from './index.less';
-import { getCommentsByActivityId, submitComment } from '@/services/comments';
+import {
+  getCommentsByActivityId,
+  queryActivityDetailById,
+  submitComment,
+} from '@/services/comments';
+import { ActivityProps } from '@/services/publish/data';
 
 export interface CommentItemProps {
   id: number;
@@ -44,6 +49,19 @@ const Comments = () => {
     }
   }, [window.location.search]);
 
+  const [activityDetail, setActivityDetail] = useState<ActivityProps>();
+
+  const queryActivityDetail = async () => {
+    if (activity_id) {
+      const res = await queryActivityDetailById({ actid: activity_id });
+      if (res?.code === 1) {
+        setActivityDetail(res.data);
+      } else {
+        message.error('获取活动信息失败, 请重试!');
+      }
+    }
+  };
+
   const fetchComments = async () => {
     const res = await getCommentsByActivityId(activity_id);
     if (res.code === 1) {
@@ -67,22 +85,25 @@ const Comments = () => {
   };
 
   useEffect(() => {
+    queryActivityDetail();
     fetchComments();
   }, [activity_id]);
 
   return (
     <PageContainer>
       <div className={styles.container}>
-        <Affix offsetTop={0}>
-          <Card className={styles.titleBar}>不会吧不会吧不会这就是活动标题吧</Card>
-        </Affix>
+        <div className={styles.titleBar}>
+          <Affix offsetTop={0}>
+            <h2 className={styles.title}>{activityDetail?.title}</h2>
+          </Affix>
+        </div>
         <Card className={styles.main}>
           <List>
             {commentsList?.map((item, id) => {
               return (
                 <Comment
                   key={id}
-                  avatar={<Avatar src={item.avatar} shape="square" />}
+                  avatar={<Avatar src={'/api' + item.avatar} shape="square" />}
                   content={item.content}
                   datetime={item.time}
                   author={item.username}
@@ -95,7 +116,7 @@ const Comments = () => {
           <List header={<div>发表评论</div>}>
             <List.Item style={{ width: '70vw' }}>
               <Comment
-                avatar={<Avatar shape="square" src={initialState.currentUser.avatar} />}
+                avatar={<Avatar shape="square" src={'/api' + initialState?.currentUser?.avatar} />}
                 content={
                   <>
                     <Form.Item>

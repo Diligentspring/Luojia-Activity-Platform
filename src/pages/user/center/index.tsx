@@ -37,7 +37,7 @@ const Center = () => {
                         ...initialState,
                         currentUser: {
                           ...initialState?.currentUser,
-                          avatar: '/api' + info.file.response.imgUrl,
+                          avatar: info.file.response.imgUrl,
                         },
                       });
                     }

@@ -42,10 +42,11 @@ interface ActivityItemProps {
   detail: ActivityProps;
   setDrawerVisible?: React.Dispatch<React.SetStateAction<boolean>>;
   ActivityDetailFormInstance?: FormInstance<ActivityProps>;
+  refreshList?: () => void;
 }
 
 const Activity = (props: ActivityItemProps) => {
-  const { detail, setDrawerVisible, ActivityDetailFormInstance: form } = props;
+  const { detail, setDrawerVisible, ActivityDetailFormInstance: form, refreshList } = props;
   const {
     id,
     title,
@@ -118,6 +119,7 @@ const Activity = (props: ActivityItemProps) => {
                     : likeThisActivity({ activity_ID: id }));
                   if (res?.code === 1) {
                     message.success(`${like_this ? '已取消赞!' : '已点赞!'}`);
+                    refreshList && refreshList();
                   } else {
                     message.error('操作失败, 请重试!');
                   }
@@ -134,6 +136,7 @@ const Activity = (props: ActivityItemProps) => {
                     : hateThisActivity({ activity_ID: id }));
                   if (res?.code === 1) {
                     message.success(`${hate_this ? '已取消踩!' : '已踩!'}`);
+                    refreshList && refreshList();
                   } else {
                     message.error('操作失败, 请重试!');
                   }
@@ -150,6 +153,7 @@ const Activity = (props: ActivityItemProps) => {
                     const res = await activityApply({ activity_ID: id });
                     if (res?.code === 1) {
                       message.success('报名成功!');
+                      refreshList && refreshList();
                     } else {
                       message.error('报名失败, 请重试!');
                     }
@@ -163,6 +167,7 @@ const Activity = (props: ActivityItemProps) => {
                     const res = await cancelApplication({ activity_ID: id });
                     if (res?.code === 1) {
                       message.success('取消报名成功!');
+                      refreshList && refreshList();
                     } else {
                       message.error('取消报名失败, 请重试!');
                     }

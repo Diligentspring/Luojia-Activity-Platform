@@ -1,3 +1,4 @@
+import { ActivityProps } from '@/components/Activity';
 import { CommentItemProps } from '@/pages/comments';
 import responseHandler from '@/utils/response-handler';
 import request from 'umi-request';
@@ -27,6 +28,22 @@ export async function submitComment(params?: { actid: string; content: string })
     },
   })
     .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}
+
+// 根据id查询活动详情
+export async function queryActivityDetailById(params?: { actid: string }) {
+  return request('/api/activity/showactdetail', {
+    method: 'GET',
+    params: { ...params },
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res: BasicResponseType<ActivityProps>) => {
       return responseHandler(res);
     })
     .catch((err) => console.log(err));

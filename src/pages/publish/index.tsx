@@ -14,7 +14,7 @@ const Publish = () => {
 
   return (
     <PageContainer>
-      <Card style={{ padding: 20, width: '80%' }}>
+      <Card style={{ padding: 20, width: '80%', marginBottom: '10vh' }}>
         <Form form={publishForm}>
           <Form.Item name="title" label="活动名称" required rules={[{ required: true }]}>
             <Input></Input>

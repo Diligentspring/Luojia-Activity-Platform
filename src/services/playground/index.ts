@@ -44,7 +44,7 @@ export async function cancelApplication(params: { activity_ID: string }) {
   return request('/api/activity/quit', {
     method: 'POST',
     credentials: 'include',
-    params: { ...params },
+    params: { actid: params.activity_ID },
   })
     .then((res: BasicResponseType<null>) => {
       return responseHandler(res);
