@@ -1,41 +1,18 @@
 import { useState } from 'react';
-import {Upload, Avatar, Button, Card,Image } from 'antd';
+import { Upload, Button, Card, Image } from 'antd';
 import background from '../../../../public/background.jpg';
 import avat from '../../../../public/avatar.png';
 import styles from './index.less';
-import {UploadOutlined, CalendarOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
+import { UploadOutlined, CalendarOutlined, MailOutlined, MobileOutlined } from '@ant-design/icons';
 import PageContainer from '@/components/PageContainer';
 import CenterCard from './components/CenterCard';
 import InfoEditCard from './components/InfoEditCard';
-import {FormattedMessage, useModel } from 'umi';
-import ImgCrop from 'antd-img-crop';
+import { useModel } from 'umi';
 
 const Center = () => {
-  const { initialState,setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [isEditing, setIsEditing] = useState<boolean>(false);
   console.log(initialState?.currentUser?.avatar);
-  const AvatarView = (props: any) => (
-    
-    <>
-      
-      <div className={styles.avatar}>
-        <Image src={props.avatar} fallback={avat} width={200}
-      height={200} />
-      
-      </div>
-      <Upload showUploadList={false} action="/api/uploadavatar" onChange={props.onChange}>
-        <div className={styles.button_view}>
-          <Button>
-            <UploadOutlined />
-            <FormattedMessage
-              id="usermanagementandpersonalandaccountsettings.basic.change-avatar"
-              defaultMessage="更换头像"
-            />
-          </Button>
-        </div>
-      </Upload>
-    </>
-  );
 
   return (
     <PageContainer>
@@ -43,18 +20,34 @@ const Center = () => {
         <Card className={styles.header}>
           <img alt="backPic" src={background} style={{ width: '100%', height: 300 }} />
           <div className={styles.headerContent}>
-            <AvatarView classname={styles.right}
-              avatar={initialState?.currentUser?.avatar}
-              shape="square"
-              size="large"
-              onChange={(info: any) => {
-                if (info.file.status === 'done') {
-                  setInitialState({...initialState, 
-                    currentUser:{...initialState?.currentUser, avatar: '/api' + info.file.response.imgUrl}})
-                  
-                }
-              }}
-            />
+            <div className={styles.avatar}>
+              <Image
+                src={'/api' + initialState?.currentUser?.avatar}
+                fallback={avat}
+                width={160}
+                height={160}
+              />
+              <div className={styles.button_view}>
+                <Upload
+                  showUploadList={false}
+                  action="/api/uploadavatar"
+                  onChange={(info: any) => {
+                    if (info.file.status === 'done') {
+                      setInitialState({
+                        ...initialState,
+                        currentUser: {
+                          ...initialState?.currentUser,
+                          avatar: '/api' + info.file.response.imgUrl,
+                        },
+                      });
+                    }
+                  }}
+                >
+                  <Button icon={<UploadOutlined />}>更换头像</Button>
+                </Upload>
+              </div>
+            </div>
+
             <div className={styles.briefInfoDiv}>
               <div className={styles.userName}>{initialState?.currentUser?.username}</div>
               <div className={styles.otherInfo}>

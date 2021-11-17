@@ -14,51 +14,37 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  .right{
-    flex-direction: column;
+
   .avatar {
     position: relative;
     top: -50px;
+    justify-content: center;
     width: 160px;
     height: 160px;
   }
-  .avatar_title {
-    height: 22px;
-    margin-bottom: 8px;
-    color: @heading-color;
-    font-size: @font-size-base;
-    line-height: 22px;
-  }
-  
+
   .button_view {
-    width: 144px;
-    text-align: center;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding: 20px;
+    justify-content: center;
+    width: 160px;
   }
 }
-  .briefInfoDiv {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: 20px;
-    .userName {
-      font-weight: bold;
-      font-size: x-large;
-      line-height: 30px;
-    }
-    .otherInfo {
-    }
+.briefInfoDiv {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  .userName {
+    font-weight: bold;
+    font-size: x-large;
+    line-height: 30px;
   }
-  .editButton {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 20px;
-  }
-
 }
-
+.editButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 20px;
+}
