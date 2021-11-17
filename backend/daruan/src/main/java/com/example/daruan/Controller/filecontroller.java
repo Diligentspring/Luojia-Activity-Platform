@@ -1,5 +1,6 @@
 package com.example.daruan.Controller;
 
+import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.Services.Impl.UserImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,8 @@ import java.util.UUID;
 public class filecontroller {
     @Autowired
     UserImpl service;
+    @Autowired
+    ActivityImpl actservice;
 
     @PostMapping(value = "/uploadavatar")
     @ResponseBody
@@ -60,6 +63,37 @@ public class filecontroller {
         String filename = "/temp/" + fileName;//本地目录和生成的文件名拼接，这一段存入数据库
 
         service.updateavatar(userid,filename);
+        result.put("code",0);
+        result.put("msg","上传成功");
+        result.put("imgUrl",filename);
+        return result;
+    }
+
+    @PostMapping(value = "/uploadicon")
+    @ResponseBody
+    public JsonNode uploadIcon(@RequestParam(value = "icon") MultipartFile file, @RequestParam(value="actid") int actid) {
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        if (file.isEmpty()) {
+            result.put("msg","文件不存在");
+            return result;
+        }
+
+        String fileName = file.getOriginalFilename();  // 文件名
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+        String filePath = "//home//lighthouse//daruan//files//image//"; // 上传后的路径,即本地磁盘
+        fileName = UUID.randomUUID() + suffixName; // 新文件名
+        File dest = new File(filePath + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filename = "/temp/" + fileName;//本地目录和生成的文件名拼接，这一段存入数据库
+
+        actservice.updateicon(actid,filename);
         result.put("code",0);
         result.put("msg","上传成功");
         result.put("imgUrl",filename);

@@ -3,10 +3,7 @@ package com.example.daruan.Controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.UserImpl;
 import com.example.daruan.Services.Impl.ActivityImpl;
-import com.example.daruan.entity.Activity;
-import com.example.daruan.entity.User;
-import com.example.daruan.entity.Useractivity;
-import com.example.daruan.entity.Like;
+import com.example.daruan.entity.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -221,4 +218,28 @@ public class usercontroller {
         Integer result = service.userstatistics();
         return result;
     }
+
+    @GetMapping("/showusercomment")
+    public JSONObject showusercomment(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        JSONObject result = new JSONObject();
+        List<Comment> commentlist = new ArrayList<>();
+        commentlist = service.usercomment(userid);
+        for(Comment comment:commentlist){
+            String username = service.getUserInfoByid(userid).getUsername();
+            comment.setUsername(username);
+        }
+        result.put("data",commentlist);
+        result.put("msg","评论获取成功");
+        result.put("code",1);
+        return result;
+    }
+
 }

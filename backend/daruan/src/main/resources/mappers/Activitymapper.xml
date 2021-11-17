@@ -71,12 +71,18 @@
     <insert id="newactivity" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Activity"
      useGeneratedKeys="true">
         insert into activity(title, site, number_people, deadline, introduction, organizerid, 
-         time_start, time_end, start, already_register)
+         time_start, time_end, start, already_register,icon)
         values(#{title, jdbcType=VARCHAR}, #{site, jdbcType=VARCHAR}, #{number_people, jdbcType=INTEGER}, 
         #{deadline, jdbcType=TIMESTAMP}, #{introduction, jdbcType=VARCHAR}, #{organizerid, jdbcType=INTEGER},
         #{time_start, jdbcType=TIMESTAMP}, #{time_end, jdbcType=TIMESTAMP}, #{start, jdbcType=TIMESTAMP},
-        #{already_register, jdbcType=INTEGER})
+        #{already_register, jdbcType=INTEGER},#{icon,jdbcType=VARCHAR})
     </insert>
+    <update id="updateicon">
+        update activity
+        set icon = #{icon,jdbcType=VARCHAR}
+        where id = #{actid,jdbcType=INTEGER}
+    </update>
+
     <update id="modactivity" parameterType="com.example.daruan.entity.Activity">
         update activity
         <set>
@@ -191,5 +197,25 @@
     	from useractivity
     	where userid = #{userid, jdbcType=INTEGER}
     	AND actid = #{actid, jdbcType=INTEGER}
+    </select>
+    <insert id="addcomment" keyColumn="id" keyProperty="id" parameterType="com.example.daruan.entity.Comment"
+            useGeneratedKeys="true">
+        insert into comment(userid,actid,content,time)
+        values(#{userid, jdbcType=INTEGER}, #{actid, jdbcType=INTEGER},
+               #{content, jdbcType=VARCHAR},#{time,jdbcType=TIMESTAMP})
+    </insert>
+    <delete id="deletecomment">
+        delete from comment
+        where id=#{id, jdbcType=INTEGER}
+    </delete>
+    <select id="actcomment" parameterType="java.lang.Integer" resultType="com.example.daruan.entity.Comment">
+        select *
+        from comment
+        where actid=#{actid,jdbcType=INTEGER}
+    </select>
+    <select id="showactdetail" parameterType="java.lang.Integer" resultType="com.example.daruan.entity.Activity">
+        select *
+        from activity
+        where id=#{actid,jdbcType=INTEGER}
     </select>
 </mapper>

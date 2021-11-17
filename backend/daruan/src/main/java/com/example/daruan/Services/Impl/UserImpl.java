@@ -2,6 +2,7 @@ package com.example.daruan.Services.Impl;
 
 import com.example.daruan.Services.Userservice;
 import com.example.daruan.entity.Activity;
+import com.example.daruan.entity.Comment;
 import com.example.daruan.entity.User;
 import com.example.daruan.mapper.Usermapper;
 import org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider;
@@ -42,4 +43,5 @@ public class UserImpl implements Userservice {
     public void updateavatar(int id, String avatar) {
          Usermapper.updateavatar(id,avatar);
     }
+    public List<Comment> usercomment(int actid){return Usermapper.usercomment(actid);}
 }

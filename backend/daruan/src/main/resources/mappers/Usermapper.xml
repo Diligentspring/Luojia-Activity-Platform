@@ -92,4 +92,10 @@
     	select count(*)
     	from user
     </select>
+    <select id="usercomment" parameterType="java.lang.Integer" resultType="com.example.daruan.entity.Comment">
+    select *
+    from comment
+    where userid=#{userid,jdbcType=INTEGER}
+</select>
+
 </mapper>

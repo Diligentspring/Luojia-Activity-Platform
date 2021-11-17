@@ -1,6 +1,7 @@
 package com.example.daruan.Services;
 
 import com.example.daruan.entity.Activity;
+import com.example.daruan.entity.Comment;
 
 import java.util.List;
 
@@ -33,4 +34,9 @@ public interface Activityservice {
     void hateactivity(Integer userid, Integer actid);
     void cancellike(Integer userid, Integer actid);
     void cancelhate(Integer userid, Integer actid);
+    void updateicon(Integer actid, String icon);
+    void addcomment(Comment comment);
+    void deletecomment(int id);
+    List<Comment>actcomment(Integer actid);
+    Activity showactdetail(Integer actid);
 }

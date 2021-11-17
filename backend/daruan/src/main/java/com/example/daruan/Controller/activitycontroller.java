@@ -3,10 +3,7 @@ package com.example.daruan.Controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.daruan.Services.Impl.ActivityImpl;
 import com.example.daruan.Services.Impl.UserImpl;
-import com.example.daruan.entity.Activity;
-import com.example.daruan.entity.User;
-import com.example.daruan.entity.Useractivity;
-import com.example.daruan.entity.Like;
+import com.example.daruan.entity.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -413,4 +410,80 @@ public class activitycontroller {
 	    result.put("msg","取消成功！");
         return result;
     }
+
+    @PostMapping("/addcomment")
+    public JsonNode addcomment(@RequestBody Comment comment, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        Date now = new Date();
+        String nowtime = df.format(now);
+        comment.setUserid(userid);
+        comment.setTime(nowtime);
+        System.err.println(comment.getContent());
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        activityservice.addcomment(comment);
+        result.put("code", 1);
+        result.put("msg","评论成功！");
+        return result;
+    }
+
+    @PostMapping("/deletecomment")
+    public JsonNode addcomment(int id, HttpServletRequest request){
+        ObjectNode result = new ObjectMapper().createObjectNode();
+        activityservice.deletecomment(id);
+        result.put("code", 1);
+        result.put("msg","删除成功！");
+        return result;
+    }
+
+    @GetMapping("/showactcomment")
+    public JSONObject showactcomment(Integer actid, HttpServletRequest request){
+        JSONObject result = new JSONObject();
+        List<Comment> commentlist = new ArrayList<>();
+        commentlist = activityservice.actcomment(actid);
+        for(Comment comment:commentlist){
+            String username = service.getUserInfoByid(comment.getUserid()).getUsername();
+            comment.setUsername(username);
+        }
+        result.put("data",commentlist);
+        result.put("msg","评论获取成功");
+        result.put("code",1);
+        return result;
+    }
+
+    @GetMapping("/showactdetail")
+    public JSONObject showactdetail(Integer actid, HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Integer userid = 0;
+        for (Cookie item : cookies) {
+            if ("cookie_userid".equals(item.getName())) {
+                userid = Integer.parseInt(item.getValue());
+                break;
+            }
+        }
+        JSONObject result = new JSONObject();
+        Activity act = activityservice.showactdetail(actid);
+        String username = service.getUserInfoByid(act.getOrganizerid()).getUsername();
+        act.setOrganizer(username);
+        if(activityservice.queryuserlike(userid, actid) == 1) {
+            act.setLike_this(1);
+        }
+        if(activityservice.queryuserhate(userid, actid) == 1) {
+            act.setHate_this(1);
+        }
+        if(activityservice.queryuserpar(userid, actid) == 1) {
+            act.setParticipated(1);
+        }
+        result.put("data",act);
+        result.put("msg","评论获取成功");
+        result.put("code",1);
+        return result;
+    }
+
 }
