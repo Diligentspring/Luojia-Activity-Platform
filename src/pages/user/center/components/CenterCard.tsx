@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Empty, message, Tabs } from 'antd';
 import Activity, { ActivityProps } from '@/components/Activity';
 import { getActivitiesParticipated, getActivitiesPublishedByMyself } from '@/services/user';
@@ -21,6 +21,9 @@ const CenterCard = () => {
     setDataSource(res?.data);
   };
 
+  useEffect(() => {
+    fetchPublished();
+  }, []);
   return (
     <>
       <Tabs
