@@ -3,6 +3,7 @@ package com.example.daruan.Services.Impl;
 import com.example.daruan.Services.Activityservice;
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.Comment;
+import com.example.daruan.entity.User;
 import com.example.daruan.mapper.Activitymapper;
 import org.springframework.stereotype.Service;
 
@@ -107,5 +108,6 @@ public class ActivityImpl implements Activityservice {
     public void deletecomment(int id){activitymapper.deletecomment(id);}
     public List<Comment> actcomment(Integer actid){return activitymapper.actcomment(actid);}
     public Activity showactdetail(Integer actid){return activitymapper.showactdetail(actid);}
+    public List<Integer> querymem(Integer actid){return activitymapper.querymem(actid);}
 }
 

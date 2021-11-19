@@ -486,4 +486,21 @@ public class activitycontroller {
         return result;
     }
 
+    @GetMapping("/getmembers")
+    public JSONObject getmembers(Integer actid){
+        JSONObject result = new JSONObject();
+        List<Integer> useridlist = new ArrayList<>();
+        useridlist = activityservice.querymem(actid);
+        List<User> userlist = new ArrayList<>();
+        for(Integer userid: useridlist){
+            User thisuser = service.getUserInfoByid(userid);
+            thisuser.setPassword("");
+            userlist.add(thisuser);
+        }
+        result.put("data",userlist);
+        result.put("msg","评论获取成功");
+        result.put("code",1);
+        return result;
+    }
+
 }

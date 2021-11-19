@@ -218,4 +218,7 @@
         from activity
         where id=#{actid,jdbcType=INTEGER}
     </select>
+    <select id="querymem" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select userid from useractivity where actid = #{actid, jdbcType=INTEGER}
+    </select>
 </mapper>

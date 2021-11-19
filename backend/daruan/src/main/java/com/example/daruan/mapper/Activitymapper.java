@@ -2,6 +2,7 @@ package com.example.daruan.mapper;
 
 import com.example.daruan.entity.Activity;
 import com.example.daruan.entity.Comment;
+import com.example.daruan.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -40,4 +41,5 @@ public interface Activitymapper {
     void deletecomment(int id);
     List<Comment> actcomment(Integer actid);
     Activity showactdetail(Integer actid);
+    List<Integer> querymem(Integer actid);
 }
