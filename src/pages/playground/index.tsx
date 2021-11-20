@@ -6,6 +6,7 @@ import styles from './index.less';
 import Activity, { ActivityProps } from '@/components/Activity';
 import { getAllActivities, getFilteredActivities } from '@/services/playground';
 import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
+import EasyCreateModal from '@/components/Activity/easyCreateModal';
 
 const Playground = () => {
   // List
@@ -16,6 +17,9 @@ const Playground = () => {
 
   // Drawer
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
+
+  // Modal
+  const [easyCreateModalVisible, setEasyCreateModalVisible] = useState<boolean>(false);
 
   // Form
   const [ActivityDetailFormInstance] = Form.useForm<ActivityProps>();
@@ -53,7 +57,14 @@ const Playground = () => {
     <PageContainer>
       <div className={styles.content}>
         <div className={styles.header}>
-          <Button type="primary">快速创建</Button>
+          <Button
+            type="primary"
+            onClick={() => {
+              setEasyCreateModalVisible(true);
+            }}
+          >
+            快速创建
+          </Button>
         </div>
         <div
           style={{
@@ -97,7 +108,12 @@ const Playground = () => {
           ) : (
             <Card>
               <Empty description="暂无活动">
-                <Button type="primary" onClick={() => {}}>
+                <Button
+                  type="primary"
+                  onClick={() => {
+                    setEasyCreateModalVisible(true);
+                  }}
+                >
                   点击发布
                 </Button>
               </Empty>
@@ -110,6 +126,7 @@ const Playground = () => {
         setVisible={setDrawerVisible}
         ActivityDetailFormInstance={ActivityDetailFormInstance}
       />
+      <EasyCreateModal visible={easyCreateModalVisible} setVisible={setEasyCreateModalVisible} />
     </PageContainer>
   );
 };
