@@ -103,3 +103,16 @@ export async function cancelhate(params: { activity_ID: string }) {
     })
     .catch((err) => console.log(err));
 }
+
+// 删除活动
+export async function cancelActivity(activity_ID: string) {
+  return request('/api/activity/cancel', {
+    method: 'POST',
+    credentials: 'include',
+    params: { actid: activity_ID },
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}

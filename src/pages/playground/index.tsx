@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './index.less';
 import Activity, { ActivityProps } from '@/components/Activity';
-import { getAllActivities, getFilteredActivities } from '@/services/playground';
+import { getAllActivities, getFilteredActivities } from '@/services/activity';
 import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
 import EasyCreateModal from '@/components/Activity/easyCreateModal';
 
@@ -17,6 +17,7 @@ const Playground = () => {
 
   // Drawer
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
+  const [currentActivityId, setCurrentActivityId] = useState<string>('');
 
   // Modal
   const [easyCreateModalVisible, setEasyCreateModalVisible] = useState<boolean>(false);
@@ -102,6 +103,7 @@ const Playground = () => {
                   refreshList={() => {
                     setRefresh(true);
                   }}
+                  setCurrentActivityId={setCurrentActivityId}
                 ></Activity>
               );
             })
@@ -122,9 +124,11 @@ const Playground = () => {
         </div>
       </div>
       <ActivityDetailDrawer
+        activity_id={currentActivityId}
         visible={drawerVisible}
         setVisible={setDrawerVisible}
         ActivityDetailFormInstance={ActivityDetailFormInstance}
+        editable={false}
       />
       <EasyCreateModal visible={easyCreateModalVisible} setVisible={setEasyCreateModalVisible} />
     </PageContainer>

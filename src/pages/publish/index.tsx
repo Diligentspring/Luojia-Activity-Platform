@@ -1,5 +1,16 @@
 import PageContainer from '../../components/PageContainer';
-import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, message } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  message,
+  Typography,
+} from 'antd';
 import { publishApplication } from '@/services/publish';
 import Activity, { ActivityProps } from '@/components/Activity';
 import React, { useState, useEffect } from 'react';
@@ -23,6 +34,9 @@ const Publish = () => {
           overflow: 'auto',
         }}
       >
+        <Typography.Title level={3} style={{ marginBottom: 20 }}>
+          发布一个新活动
+        </Typography.Title>
         <Form form={publishForm}>
           <Form.Item name="title" label="活动名称" required rules={[{ required: true }]}>
             <Input></Input>

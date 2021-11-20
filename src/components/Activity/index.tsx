@@ -3,7 +3,7 @@ import { Button, Card, message, Typography, FormInstance } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
-import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
+import { DislikeFilled, DislikeOutlined, LikeOutlined, LikeTwoTone } from '@ant-design/icons';
 import {
   activityApply,
   cancelApplication,
@@ -11,9 +11,9 @@ import {
   cancelLike,
   hateThisActivity,
   likeThisActivity,
-} from '@/services/playground';
+} from '@/services/activity';
 import { history } from '@/.umi/core/history';
-import { isMoment, Moment } from 'moment';
+import { Moment } from 'moment';
 import moment from 'moment';
 
 const { Title } = Typography;
@@ -45,10 +45,17 @@ interface ActivityItemProps {
   setDrawerVisible?: React.Dispatch<React.SetStateAction<boolean>>;
   ActivityDetailFormInstance?: FormInstance<ActivityProps>;
   refreshList?: () => void;
+  setCurrentActivityId?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const Activity = (props: ActivityItemProps) => {
-  const { detail, setDrawerVisible, ActivityDetailFormInstance: form, refreshList } = props;
+  const {
+    detail,
+    setDrawerVisible,
+    ActivityDetailFormInstance: form,
+    refreshList,
+    setCurrentActivityId,
+  } = props;
   const {
     id,
     title,
@@ -103,6 +110,7 @@ const Activity = (props: ActivityItemProps) => {
               <Button
                 type="link"
                 onClick={() => {
+                  setCurrentActivityId?.(detail.id);
                   form &&
                     form.setFieldsValue({
                       ...detail,
@@ -134,7 +142,7 @@ const Activity = (props: ActivityItemProps) => {
                   }
                 }}
               >
-                {like_this ? <LikeFilled /> : <LikeOutlined />}
+                {like_this ? <LikeTwoTone twoToneColor="#fb7299" /> : <LikeOutlined />}
                 {like}
               </div>
               <div
