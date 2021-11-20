@@ -32,20 +32,22 @@ const ActivityDetailDrawer = (props: DrawerProps) => {
         setVisible(false);
       }}
       extra={
-        <Popconfirm
-          placement="bottomLeft"
-          title={
-            <>
-              <div>确认要删除此活动吗?</div>
-              <div>活动一旦删除, 不可再恢复!</div>
-            </>
-          }
-          onConfirm={async () => {
-            await deleteActivity();
-          }}
-        >
-          <Button>删除活动</Button>
-        </Popconfirm>
+        editable && (
+          <Popconfirm
+            placement="bottomLeft"
+            title={
+              <>
+                <div>确认要删除此活动吗?</div>
+                <div>活动一旦删除, 不可再恢复!</div>
+              </>
+            }
+            onConfirm={async () => {
+              await deleteActivity();
+            }}
+          >
+            <Button>删除活动</Button>
+          </Popconfirm>
+        )
       }
       width="40vw"
       footer={

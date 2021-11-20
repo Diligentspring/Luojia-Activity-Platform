@@ -7,6 +7,7 @@ import Activity, { ActivityProps } from '@/components/Activity';
 import { getAllActivities, getFilteredActivities } from '@/services/activity';
 import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
 import EasyCreateModal from '@/components/Activity/easyCreateModal';
+import ParticipatorDrawer from '@/components/Activity/participatorsDrawer';
 
 const Playground = () => {
   // List
@@ -15,9 +16,13 @@ const Playground = () => {
   // Tab
   const [activeKey, setActiveKey] = useState('0');
 
-  // Drawer
+  // Drawer: 查看活动详情
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [currentActivityId, setCurrentActivityId] = useState<string>('');
+
+  // Drawer: 查看所有参与者
+  const [participatorsDrawerVisible, setParticipatorsDrawerVisible] = useState<boolean>(false);
+  const [currentActivityDetail, setCurrentActivityDetail] = useState<ActivityProps>();
 
   // Modal
   const [easyCreateModalVisible, setEasyCreateModalVisible] = useState<boolean>(false);
@@ -104,7 +109,9 @@ const Playground = () => {
                     setRefresh(true);
                   }}
                   setCurrentActivityId={setCurrentActivityId}
-                ></Activity>
+                  setParticipatorsDrawerVisible={setParticipatorsDrawerVisible}
+                  setCurrentActivityDetail={setCurrentActivityDetail}
+                />
               );
             })
           ) : (
@@ -129,6 +136,14 @@ const Playground = () => {
         setVisible={setDrawerVisible}
         ActivityDetailFormInstance={ActivityDetailFormInstance}
         editable={false}
+      />
+      <ParticipatorDrawer
+        activityDetail={currentActivityDetail || { id: '0' }}
+        visible={participatorsDrawerVisible}
+        setVisible={setParticipatorsDrawerVisible}
+        refreshList={() => {
+          setRefresh(true);
+        }}
       />
       <EasyCreateModal visible={easyCreateModalVisible} setVisible={setEasyCreateModalVisible} />
     </PageContainer>

@@ -4,6 +4,7 @@ import Activity, { ActivityProps } from '@/components/Activity';
 import { getActivitiesParticipated, getActivitiesPublishedByMyself } from '@/services/user';
 import EasyCreateModal from '@/components/Activity/easyCreateModal';
 import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
+import ParticipatorDrawer from '@/components/Activity/participatorsDrawer';
 
 const CenterCard = () => {
   // Tabs
@@ -20,6 +21,10 @@ const CenterCard = () => {
   // Drawer
   const [drawerVisible, setDrawerVisible] = useState<boolean>(false);
   const [currentActivityId, setCurrentActivityId] = useState<string>('');
+
+  // Drawer: 查看所有参与者
+  const [participatorsDrawerVisible, setParticipatorsDrawerVisible] = useState<boolean>(false);
+  const [currentActivityDetail, setCurrentActivityDetail] = useState<ActivityProps>();
 
   // Form
   const [ActivityDetailFormInstance] = Form.useForm<ActivityProps>();
@@ -93,7 +98,9 @@ const CenterCard = () => {
                 refreshList={() => {
                   setRefresh(true);
                 }}
-              ></Activity>
+                setParticipatorsDrawerVisible={setParticipatorsDrawerVisible}
+                setCurrentActivityDetail={setCurrentActivityDetail}
+              />
             );
           })
         ) : (
@@ -115,6 +122,14 @@ const CenterCard = () => {
         ActivityDetailFormInstance={ActivityDetailFormInstance}
         editable={activeKey === '0'}
         activity_id={currentActivityId}
+      />
+      <ParticipatorDrawer
+        activityDetail={currentActivityDetail || { id: '' }}
+        visible={participatorsDrawerVisible}
+        setVisible={setParticipatorsDrawerVisible}
+        refreshList={() => {
+          setRefresh(true);
+        }}
       />
       <EasyCreateModal visible={easyCreateModalVisible} setVisible={setEasyCreateModalVisible} />
     </>

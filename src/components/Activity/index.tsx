@@ -1,5 +1,5 @@
 import { StatusType } from './status';
-import { Button, Card, message, Typography, FormInstance } from 'antd';
+import { Button, Card, message, Typography, FormInstance, Avatar } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
@@ -37,6 +37,7 @@ export interface ActivityProps {
   hate?: number; // 点踩数
   hate_this?: boolean; // 当前用户是否已对当前活动点踩
   participated?: boolean; // 是否已参加
+  participator?: API.CurrentUser[];
 }
 
 interface ActivityItemProps {
@@ -45,7 +46,9 @@ interface ActivityItemProps {
   setDrawerVisible?: React.Dispatch<React.SetStateAction<boolean>>;
   ActivityDetailFormInstance?: FormInstance<ActivityProps>;
   refreshList?: () => void;
-  setCurrentActivityId?: React.Dispatch<React.SetStateAction<string>>;
+  setCurrentActivityId: React.Dispatch<React.SetStateAction<string>>;
+  setParticipatorsDrawerVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentActivityDetail: React.Dispatch<React.SetStateAction<ActivityProps | undefined>>;
 }
 
 const Activity = (props: ActivityItemProps) => {
@@ -55,7 +58,10 @@ const Activity = (props: ActivityItemProps) => {
     ActivityDetailFormInstance: form,
     refreshList,
     setCurrentActivityId,
+    setCurrentActivityDetail,
+    setParticipatorsDrawerVisible,
   } = props;
+
   const {
     id,
     title,
@@ -74,6 +80,7 @@ const Activity = (props: ActivityItemProps) => {
     hate,
     hate_this,
     participated,
+    participator,
   } = detail;
 
   return (
@@ -104,6 +111,15 @@ const Activity = (props: ActivityItemProps) => {
             </div>
 
             <div style={{ color: 'gray' }}>{introduction}</div>
+            <div>
+              {participator?.map((item, id) => (
+                <Avatar
+                  key={id}
+                  src={'/api' + item.avatar}
+                  style={{ position: 'relative', left: `-${id * 10}px` }}
+                />
+              ))}
+            </div>
           </div>
           <div className={styles.activity_right_div}>
             <div>
@@ -162,6 +178,18 @@ const Activity = (props: ActivityItemProps) => {
                 {hate_this ? <DislikeFilled /> : <DislikeOutlined />}
                 {hate}
               </div>
+            </div>
+            <div>
+              <Button
+                type="link"
+                onClick={() => {
+                  setCurrentActivityDetail(detail);
+                  setParticipatorsDrawerVisible(true);
+                  setCurrentActivityId(id);
+                }}
+              >
+                查看所有参与者
+              </Button>
             </div>
             <div>
               {state === StatusType.APPLYING ? (
