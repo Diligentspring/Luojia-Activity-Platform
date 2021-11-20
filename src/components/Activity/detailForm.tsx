@@ -7,9 +7,7 @@ interface ActivityDetailFormProps {
 }
 const ActivityDetailForm = (props: ActivityDetailFormProps) => {
   const { form } = props;
-  // useEffect(() => {
-  //   const tempValue = form.getFieldsValue();
-  // }, []);
+
   return (
     <Form form={form}>
       <Form.Item name="title" label="活动名称">
@@ -27,19 +25,19 @@ const ActivityDetailForm = (props: ActivityDetailFormProps) => {
         </Col>
         <Col>
           <Form.Item name="time_end" label="活动结束时间">
-            {/* <DatePicker showTime={true}></DatePicker> */}
+            <DatePicker showTime={true}></DatePicker>
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={64}>
         <Col>
           <Form.Item name="start" label="报名开始时间">
-            {/* <DatePicker showTime={true}></DatePicker> */}
+            <DatePicker showTime={true}></DatePicker>
           </Form.Item>
         </Col>
         <Col>
           <Form.Item name="deadline" label="报名结束时间">
-            {/* <DatePicker showTime={true}></DatePicker> */}
+            <DatePicker showTime={true}></DatePicker>
           </Form.Item>
         </Col>
       </Row>

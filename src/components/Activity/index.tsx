@@ -13,6 +13,8 @@ import {
   likeThisActivity,
 } from '@/services/playground';
 import { history } from '@/.umi/core/history';
+import { isMoment, Moment } from 'moment';
+import moment from 'moment';
 
 const { Title } = Typography;
 
@@ -22,14 +24,14 @@ export interface ActivityProps {
   type?: string; // 活动种类
   introduction?: string; // 活动描述
   organizer?: string; // 组织者
-  time_start?: string; // 活动创建时间
-  time_end?: string; // 活动结束时间
+  time_start?: string | Moment; // 活动创建时间
+  time_end?: string | Moment; // 活动结束时间
   site?: string; // 活动地点
   state?: StatusType; // 活动状态
   number_people?: number; // 招募人数
   already_register?: number; // 已有人数
-  start?: string; // 报名开始时间
-  deadline?: string; // 报名截止时间
+  start?: string | Moment; // 报名开始时间
+  deadline?: string | Moment; // 报名截止时间
   like?: number; // 点赞数
   like_this?: boolean; // 当前用户是否已对当前活动点赞
   hate?: number; // 点踩数
@@ -101,7 +103,14 @@ const Activity = (props: ActivityItemProps) => {
               <Button
                 type="link"
                 onClick={() => {
-                  form && form.setFieldsValue({ ...detail });
+                  form &&
+                    form.setFieldsValue({
+                      ...detail,
+                      start: moment(detail?.start),
+                      deadline: moment(detail?.deadline),
+                      time_start: moment(detail?.time_start),
+                      time_end: moment(detail?.time_end),
+                    });
                   setDrawerVisible && setDrawerVisible(true);
                 }}
               >
