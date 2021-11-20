@@ -29,15 +29,26 @@ const Playground = () => {
     setRefresh(false);
   };
 
+  const fetchFilteredActivities = async (key: string) => {
+    setRefresh(true);
+    if (key === '0') fetchAllActivities();
+    else {
+      const res = await getFilteredActivities({ key: parseInt(key) });
+      setDataSource(res.data);
+    }
+    setRefresh(false);
+  };
+
   useEffect(() => {
     fetchAllActivities();
   }, []);
 
   useEffect(() => {
     if (refresh) {
-      fetchAllActivities();
+      fetchFilteredActivities(activeKey);
     }
   }, [refresh]);
+
   return (
     <PageContainer>
       <div className={styles.content}>
@@ -57,11 +68,7 @@ const Playground = () => {
             defaultActiveKey={activeKey}
             onChange={async (key) => {
               setActiveKey(key);
-              if (key === '0') fetchAllActivities();
-              else {
-                const res = await getFilteredActivities({ key: parseInt(key) });
-                setDataSource(res.data);
-              }
+              fetchFilteredActivities(key);
             }}
           >
             <Tabs.TabPane tab="全部" key="0"></Tabs.TabPane>
