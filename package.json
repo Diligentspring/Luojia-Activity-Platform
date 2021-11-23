@@ -53,7 +53,7 @@
     "@ant-design/pro-layout": "^6.15.3",
     "@ant-design/pro-table": "^2.30.8",
     "@umijs/route-utils": "^1.0.36",
-    "antd": "^4.17.0",
+    "antd": "^4.17.1",
     "antd-img-crop": "^3.16.0",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",

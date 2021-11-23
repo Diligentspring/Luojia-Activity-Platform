@@ -1,9 +1,15 @@
 import { StatusType } from './status';
-import { Button, Card, message, Typography, FormInstance, Avatar } from 'antd';
+import { Button, Card, message, Typography, FormInstance, Avatar, Progress, Statistic } from 'antd';
 import Status from './status';
 
 import styles from './index.less';
-import { DislikeFilled, DislikeOutlined, LikeOutlined, LikeTwoTone } from '@ant-design/icons';
+import {
+  DislikeFilled,
+  DislikeOutlined,
+  LikeOutlined,
+  LikeTwoTone,
+  UserOutlined,
+} from '@ant-design/icons';
 import {
   activityApply,
   cancelApplication,
@@ -100,7 +106,7 @@ const Activity = (props: ActivityItemProps) => {
                 level={2}
                 style={{ marginBottom: 0, cursor: 'pointer' }}
                 onClick={() => {
-                  history.push({ pathname: '/comments', query: { ActivityId: detail.id } });
+                  history.push({ pathname: '/comments/', query: { ActivityId: detail.id } });
                 }}
               >
                 {title}
@@ -179,7 +185,16 @@ const Activity = (props: ActivityItemProps) => {
                 {hate}
               </div>
             </div>
-            <div>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {already_register !== undefined &&
+                already_register >= 0 &&
+                number_people !== undefined &&
+                number_people > 0 && (
+                  <span style={{ fontSize: 18, marginRight: 10 }}>
+                    {`${already_register.toString() + '/' + number_people.toString()}`}{' '}
+                    <UserOutlined />
+                  </span>
+                )}
               <Button
                 type="link"
                 onClick={() => {

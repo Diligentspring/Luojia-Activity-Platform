@@ -116,3 +116,16 @@ export async function cancelActivity(activity_ID: string) {
     })
     .catch((err) => console.log(err));
 }
+
+// 更新活动信息
+export async function updateActivity(params: any) {
+  return request('/api/activity/modify', {
+    method: 'POST',
+    credentials: 'include',
+    data: { ...params },
+  })
+    .then((res: BasicResponseType<null>) => {
+      return responseHandler(res);
+    })
+    .catch((err) => console.log(err));
+}

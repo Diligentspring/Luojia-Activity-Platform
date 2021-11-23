@@ -122,6 +122,9 @@ const CenterCard = () => {
         ActivityDetailFormInstance={ActivityDetailFormInstance}
         editable={activeKey === '0'}
         activity_id={currentActivityId}
+        refreshList={() => {
+          setRefresh(true);
+        }}
       />
       <ParticipatorDrawer
         activityDetail={currentActivityDetail || { id: '' }}

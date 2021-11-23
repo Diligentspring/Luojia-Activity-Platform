@@ -8,6 +8,7 @@ import { getAllActivities, getFilteredActivities } from '@/services/activity';
 import ActivityDetailDrawer from '@/components/Activity/detailDrawer';
 import EasyCreateModal from '@/components/Activity/easyCreateModal';
 import ParticipatorDrawer from '@/components/Activity/participatorsDrawer';
+import Welcome from '../Welcome';
 
 const Playground = () => {
   // List
@@ -62,6 +63,7 @@ const Playground = () => {
   return (
     <PageContainer>
       <div className={styles.content}>
+        <Welcome />
         <div className={styles.header}>
           <Button
             type="primary"

@@ -54,7 +54,7 @@
   // },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/playground',
   },
   {
     path: '/comments',
