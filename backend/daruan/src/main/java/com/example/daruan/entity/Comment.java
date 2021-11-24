@@ -7,6 +7,7 @@ public class Comment {
     String content;
     String time;
     String username;
+    String avatar;
 
     public int getId() {
         return id;
@@ -54,5 +55,13 @@ public class Comment {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

@@ -109,5 +109,6 @@ public class ActivityImpl implements Activityservice {
     public List<Comment> actcomment(Integer actid){return activitymapper.actcomment(actid);}
     public Activity showactdetail(Integer actid){return activitymapper.showactdetail(actid);}
     public List<Integer> querymem(Integer actid){return activitymapper.querymem(actid);}
+    public Integer queryalreadypeople(Integer actid){return activitymapper.queryalreadypeople(actid);}
 }
 

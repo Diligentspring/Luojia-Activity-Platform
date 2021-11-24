@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +63,7 @@ public class activitycontroller {
         	//System.err.println(actid);
         	Integer like = activityservice.querylike(actid);
         	Integer hate = activityservice.queryhate(actid);
+        	activity.setAlready_register(activityservice.queryalreadypeople(actid));
         	activity.setLike(like);
         	activity.setHate(hate);
         	
@@ -118,6 +120,15 @@ public class activitycontroller {
                 System.err.println(activity.getState());
                 System.err.println('5');
             }
+            List<Integer> useridlist = new ArrayList<>();
+            useridlist = activityservice.querymem(actid);
+            List<User> userlist = new ArrayList<>();
+            for(Integer thisuserid: useridlist){
+                User thisuser = service.getUserInfoByid(thisuserid);
+                thisuser.setPassword("");
+                userlist.add(thisuser);
+            }
+            activity.setParticipator(userlist);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
@@ -165,6 +176,7 @@ public class activitycontroller {
         	Integer like = activityservice.querylike(actid);
         	Integer hate = activityservice.queryhate(actid);
         	activity.setLike(like);
+            activity.setAlready_register(activityservice.queryalreadypeople(actid));
         	activity.setHate(hate);
         	activity.setState(key);
         	if(activityservice.queryuserpar(userid, actid) == 1) {
@@ -180,6 +192,15 @@ public class activitycontroller {
         	User Organizer = service.getUserInfoByid(organizerid);
         	String organizer = Organizer.getUsername();
         	activity.setOrganizer(organizer);
+            List<Integer> useridlist = new ArrayList<>();
+            useridlist = activityservice.querymem(actid);
+            List<User> userlist = new ArrayList<>();
+            for(Integer thisuserid: useridlist){
+                User thisuser = service.getUserInfoByid(thisuserid);
+                thisuser.setPassword("");
+                userlist.add(thisuser);
+            }
+            activity.setParticipator(userlist);
         }
         result.put("data",activitylist);
         result.put("msg","活动查询完成！");
@@ -205,6 +226,7 @@ public class activitycontroller {
         	Integer actid = activity.getId();
         	Integer like = activityservice.querylike(actid);
         	Integer hate = activityservice.queryhate(actid);
+            activity.setAlready_register(activityservice.queryalreadypeople(actid));
         	activity.setLike(like);
         	activity.setHate(hate);
         	if(activityservice.queryuserpar(userid, actid) == 1) {
@@ -220,6 +242,15 @@ public class activitycontroller {
         	User Organizer = service.getUserInfoByid(organizerid);
         	String organizer = Organizer.getUsername();
         	activity.setOrganizer(organizer);
+            List<Integer> useridlist = new ArrayList<>();
+            useridlist = activityservice.querymem(actid);
+            List<User> userlist = new ArrayList<>();
+            for(Integer thisuserid: useridlist){
+                User thisuser = service.getUserInfoByid(thisuserid);
+                thisuser.setPassword("");
+                userlist.add(thisuser);
+            }
+            activity.setParticipator(userlist);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
@@ -266,6 +297,7 @@ public class activitycontroller {
     
     @PostMapping("/register")
     public JsonNode regactivity(@RequestParam(value="actid") Integer actid, HttpServletRequest request){
+        ObjectNode result = new ObjectMapper().createObjectNode();
     	Cookie[] cookies = request.getCookies();
         Integer userid = 0;
         for (Cookie item : cookies) {
@@ -274,11 +306,18 @@ public class activitycontroller {
                 break;
             }
         }
+        Activity activity = activityservice.showactdetail(actid);
+        Integer already = activityservice.queryalreadypeople(actid);
+        if(already>=activity.getNumber_people()){
+            result.put("code", 0);
+            result.put("msg","报名人数已超出上限！");
+            return result;
+        }
+
         //System.err.print(actid);
         activityservice.interactivity(userid, actid);
-        activityservice.register(actid);
-        
-        ObjectNode result = new ObjectMapper().createObjectNode();
+        //activityservice.register(actid);
+
         result.put("code", 1);
         result.put("msg","报名成功！");
         return result;
@@ -296,7 +335,7 @@ public class activitycontroller {
         }
         //System.err.print(actid);
         activityservice.quitactivity(userid, actid);
-        activityservice.deregister(actid);
+        //activityservice.deregister(actid);
         
         ObjectNode result = new ObjectMapper().createObjectNode();
         result.put("code", 1);
@@ -448,8 +487,10 @@ public class activitycontroller {
         List<Comment> commentlist = new ArrayList<>();
         commentlist = activityservice.actcomment(actid);
         for(Comment comment:commentlist){
-            String username = service.getUserInfoByid(comment.getUserid()).getUsername();
+            User thisuser = service.getUserInfoByid(comment.getUserid());
+            String username = thisuser.getUsername();
             comment.setUsername(username);
+            comment.setAvatar(thisuser.getAvatar());
         }
         result.put("data",commentlist);
         result.put("msg","评论获取成功");
@@ -469,6 +510,7 @@ public class activitycontroller {
         }
         JSONObject result = new JSONObject();
         Activity act = activityservice.showactdetail(actid);
+        act.setAlready_register(activityservice.queryalreadypeople(actid));
         String username = service.getUserInfoByid(act.getOrganizerid()).getUsername();
         act.setOrganizer(username);
         if(activityservice.queryuserlike(userid, actid) == 1) {
@@ -480,6 +522,15 @@ public class activitycontroller {
         if(activityservice.queryuserpar(userid, actid) == 1) {
             act.setParticipated(1);
         }
+        List<Integer> useridlist = new ArrayList<>();
+        useridlist = activityservice.querymem(actid);
+        List<User> userlist = new ArrayList<>();
+        for(Integer thisuserid: useridlist){
+            User thisuser = service.getUserInfoByid(thisuserid);
+            thisuser.setPassword("");
+            userlist.add(thisuser);
+        }
+        act.setParticipator(userlist);
         result.put("data",act);
         result.put("msg","评论获取成功");
         result.put("code",1);

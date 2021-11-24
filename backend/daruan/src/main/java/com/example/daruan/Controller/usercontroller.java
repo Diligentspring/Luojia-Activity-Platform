@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -29,6 +32,7 @@ public class usercontroller {
     UserImpl service;
     @Autowired
     ActivityImpl activityservice;
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     @PostMapping("/register")
     public JsonNode newuser(@RequestBody User user){
         ObjectNode result = new ObjectMapper().createObjectNode();
@@ -149,11 +153,19 @@ public class usercontroller {
                 break;
             }
         }
+        Date now = new Date();
+        String nowtime = df.format(now);
+        Date nowdate = null;
+        try {
+            nowdate = df.parse(nowtime);
+        } catch (ParseException e) {
+        }
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         activitylist = service.userpubactivity(userid);
         for (Activity activity : activitylist) {
         	Integer actid = activity.getId();
+            activity.setAlready_register(activityservice.queryalreadypeople(actid));
         	if(activityservice.queryuserpar(userid, actid) == 1) {
         		activity.setParticipated(1);
         	}
@@ -166,7 +178,55 @@ public class usercontroller {
         	}
         	User Organizer = service.getUserInfoByid(organizerid);
         	String organizer = Organizer.getUsername();
+            activity.setLike(activityservice.querylike(actid));
+            activity.setHate(activityservice.queryhate(actid));
         	activity.setOrganizer(organizer);
+            String start = activity.getStart();
+            String deadline = activity.getDeadline();
+            String time_start = activity.getTime_start();
+            String time_end = activity.getTime_end();
+            Date starttime = null;
+            Date deadtime = null;
+            Date activitystart = null;
+            Date activityend = null;
+
+            try {
+                starttime = df.parse(start);
+                deadtime = df.parse(deadline);
+                activitystart = df.parse(time_start);
+                activityend = df.parse(time_end);
+            } catch (ParseException e) {
+            }
+            if(nowdate.before(starttime)){
+                activity.setState(1);
+                System.err.println('1');
+            }
+            else if(nowdate.after(starttime)&&nowdate.before(deadtime)){
+                activity.setState(2);
+                System.err.println('2');
+            }
+            else if(nowdate.before(activitystart)&&nowdate.after(deadtime)){
+                activity.setState(3);
+                System.err.println('3');
+            }
+            else if(nowdate.after(activitystart)&&nowdate.before(activityend)){
+                activity.setState(4);
+                System.err.println('4');
+            }
+            else if(nowdate.after(activityend)){
+                activity.setState(5);
+                System.err.println(activity.getState());
+                System.err.println('5');
+            }
+            List<Integer> useridlist = new ArrayList<>();
+            useridlist = activityservice.querymem(actid);
+            List<User> userlist = new ArrayList<>();
+            for(Integer thisuserid: useridlist){
+                User thisuser = service.getUserInfoByid(thisuserid);
+                thisuser.setPassword("");
+                userlist.add(thisuser);
+            }
+            activity.setParticipator(userlist);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
@@ -184,6 +244,13 @@ public class usercontroller {
                 break;
             }
         }
+        Date now = new Date();
+        String nowtime = df.format(now);
+        Date nowdate = null;
+        try {
+            nowdate = df.parse(nowtime);
+        } catch (ParseException e) {
+        }
         JSONObject result = new JSONObject();
         List<Activity> activitylist = new ArrayList<>();
         List<Integer> actids = new ArrayList<>();
@@ -196,6 +263,7 @@ public class usercontroller {
         for (Activity activity : activitylist) {
         	Integer actid = activity.getId();
         	activity.setParticipated(1);
+            activity.setAlready_register(activityservice.queryalreadypeople(actid));
         	Integer organizerid = activity.getOrganizerid();
         	if(activityservice.queryuserlike(userid, actid) == 1) {
         		activity.setLike_this(1);
@@ -206,6 +274,54 @@ public class usercontroller {
         	User Organizer = service.getUserInfoByid(organizerid);
         	String organizer = Organizer.getUsername();
         	activity.setOrganizer(organizer);
+            activity.setLike(activityservice.querylike(actid));
+            activity.setHate(activityservice.queryhate(actid));
+            String start = activity.getStart();
+            String deadline = activity.getDeadline();
+            String time_start = activity.getTime_start();
+            String time_end = activity.getTime_end();
+            Date starttime = null;
+            Date deadtime = null;
+            Date activitystart = null;
+            Date activityend = null;
+
+            try {
+                starttime = df.parse(start);
+                deadtime = df.parse(deadline);
+                activitystart = df.parse(time_start);
+                activityend = df.parse(time_end);
+            } catch (ParseException e) {
+            }
+            if(nowdate.before(starttime)){
+                activity.setState(1);
+                System.err.println('1');
+            }
+            else if(nowdate.after(starttime)&&nowdate.before(deadtime)){
+                activity.setState(2);
+                System.err.println('2');
+            }
+            else if(nowdate.before(activitystart)&&nowdate.after(deadtime)){
+                activity.setState(3);
+                System.err.println('3');
+            }
+            else if(nowdate.after(activitystart)&&nowdate.before(activityend)){
+                activity.setState(4);
+                System.err.println('4');
+            }
+            else if(nowdate.after(activityend)){
+                activity.setState(5);
+                System.err.println(activity.getState());
+                System.err.println('5');
+            }
+            List<Integer> useridlist = new ArrayList<>();
+            useridlist = activityservice.querymem(actid);
+            List<User> userlist = new ArrayList<>();
+            for(Integer thisuserid: useridlist){
+                User thisuser = service.getUserInfoByid(thisuserid);
+                thisuser.setPassword("");
+                userlist.add(thisuser);
+            }
+            activity.setParticipator(userlist);
         }
         result.put("data",activitylist);
         result.put("msg","活动获取成功");
@@ -233,8 +349,11 @@ public class usercontroller {
         List<Comment> commentlist = new ArrayList<>();
         commentlist = service.usercomment(userid);
         for(Comment comment:commentlist){
-            String username = service.getUserInfoByid(userid).getUsername();
+            User thisuser = service.getUserInfoByid(userid);
+            String username = thisuser.getUsername();
             comment.setUsername(username);
+            comment.setAvatar(thisuser.getAvatar());
+
         }
         result.put("data",commentlist);
         result.put("msg","评论获取成功");

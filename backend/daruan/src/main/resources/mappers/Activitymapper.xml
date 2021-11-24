@@ -221,4 +221,9 @@
     <select id="querymem" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         select userid from useractivity where actid = #{actid, jdbcType=INTEGER}
     </select>
+    <select id="queryalreadypeople" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*)
+        from useractivity
+        where actid = #{actid, jdbcType=INTEGER}
+    </select>
 </mapper>

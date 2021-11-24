@@ -2,6 +2,8 @@ package com.example.daruan.entity;
 
 import io.swagger.models.auth.In;
 
+import java.util.List;
+
 public class Activity {
     Integer id;
     String title;
@@ -23,6 +25,7 @@ public class Activity {
     Integer like_this = 0; //0表示不喜欢，1表示喜欢
     Integer hate_this = 0; //0表示不讨厌，1表示讨厌
     String icon;
+    List<User> participator;
 
     public String getOrganizer() {
 		return organizer;
@@ -182,5 +185,13 @@ public class Activity {
 
     public void setAlready_register(Integer already_register) {
         this.already_register = already_register;
+    }
+
+    public List<User> getParticipator() {
+        return participator;
+    }
+
+    public void setParticipator(List<User> participator) {
+        this.participator = participator;
     }
 }

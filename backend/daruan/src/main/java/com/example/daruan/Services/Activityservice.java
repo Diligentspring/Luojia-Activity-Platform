@@ -41,4 +41,5 @@ public interface Activityservice {
     List<Comment>actcomment(Integer actid);
     Activity showactdetail(Integer actid);
     List<Integer> querymem(Integer actid);
+    Integer queryalreadypeople(Integer actid);
 }
