@@ -103,7 +103,7 @@ const ActivityDetailDrawer = (props: DrawerProps) => {
                   message.error('活动时间顺序有误, 请重试!');
                 }
               } catch (e: any) {
-                message.error(e.toString());
+                message.error('请输入必填项!');
               }
               setVisible(false);
             }}
