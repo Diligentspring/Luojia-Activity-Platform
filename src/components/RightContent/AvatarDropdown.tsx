@@ -98,6 +98,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
           className={styles.avatar}
           src={'/api' + currentUser.avatar}
           alt="avatar"
+          
         />
         <span className={`${styles.name} anticon`}>{currentUser.username}</span>
       </span>

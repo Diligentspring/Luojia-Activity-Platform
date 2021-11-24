@@ -106,7 +106,7 @@ const Activity = (props: ActivityItemProps) => {
                 level={2}
                 style={{ marginBottom: 0, cursor: 'pointer' }}
                 onClick={() => {
-                  history.push({ pathname: '/comments/', query: { ActivityId: detail.id } });
+                  window.location.href=`/comments?ActivityId=${detail.id}`;
                 }}
               >
                 {title}
@@ -116,7 +116,7 @@ const Activity = (props: ActivityItemProps) => {
               </div>
             </div>
 
-            <div style={{ color: 'gray' }}>{introduction}</div>
+            <div style={{width: '90%', color: 'gray' }}>{introduction}</div>
             <div>
               {participator?.map((item, id) => (
                 <Avatar

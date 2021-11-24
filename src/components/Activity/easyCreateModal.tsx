@@ -34,14 +34,18 @@ const EasyCreateModal = ({
         const formValue = easyCreateForm.getFieldsValue(true);
 
         // 校验必填项
-        await easyCreateForm.validateFields(['title', 'time_start', 'start']);
+        await easyCreateForm.validateFields(['title', 'time_start', 'start', 'time_end', 'deadline']);
         // 校验时间顺序
-        if (formValue['start'].unix() < formValue['time_start'].unix()) {
+        if (formValue['start'].unix() < formValue['deadline'].unix() &&
+          formValue['deadline'].unix() < formValue['time_start'].unix() &&
+          formValue['time_start'].unix() < formValue['time_end'].unix()) {
           const res = await publishApplication({
             data: {
               ...formValue,
               time_start: formValue['time_start']?.format?.('YYYY-MM-DD HH:mm:ss'),
+              time_end: formValue['time_end']?.format?.('YYYY-MM-DD HH:mm:ss'),
               start: formValue['start']?.format?.('YYYY-MM-DD HH:mm:ss'),
+              deadline: formValue['deadline']?.format?.('YYYY-MM-DD HH:mm:ss'),
             },
           });
           if (res.code === 1) {
@@ -63,7 +67,13 @@ const EasyCreateModal = ({
         <Form.Item label="活动开始时间" name="time_start" required rules={[{ required: true }]}>
           <DatePicker showTime={true} format={'YYYY-MM-DD hh:mm:ss'} disabledDate={disabledDate} />
         </Form.Item>
+        <Form.Item name="time_end" label="活动结束时间" required rules={[{ required: true }]}>
+          <DatePicker showTime={true} disabledDate={disabledDate} />
+        </Form.Item>
         <Form.Item name="start" label="报名开始时间" required rules={[{ required: true }]}>
+          <DatePicker showTime={true} disabledDate={disabledDate} />
+        </Form.Item>
+        <Form.Item name="deadline" label="报名结束时间" required rules={[{ required: true }]}>
           <DatePicker showTime={true} disabledDate={disabledDate} />
         </Form.Item>
         <Form.Item name="introduction" label="活动描述">
